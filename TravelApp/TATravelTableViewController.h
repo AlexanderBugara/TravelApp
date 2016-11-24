@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  TATravelTableViewController.h
 //  TravelApp
 //
 //  Created by Alexander on 11/16/16.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface TATravelTableViewController : UITableViewController
 
 @end
-

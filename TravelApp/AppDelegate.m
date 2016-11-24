@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "TATabBarController.h"
+#import "TATravelTableViewController.h"
 
 @interface AppDelegate ()
 
@@ -16,7 +18,18 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  // Override point for customization after application launch.
+  
+  self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+  
+  UINavigationController *navigationController = [UINavigationController new];
+  
+  TATabBarController *tabBarVeiwController = [[TATabBarController alloc] initWithConfig:[TATabBarConfiguration new]];
+  [tabBarVeiwController setViewControllers:@[[TATravelTableViewController new],[TATravelTableViewController new]]];
+  
+  [navigationController setViewControllers:@[tabBarVeiwController]];
+  self.window.rootViewController = navigationController;
+  
+  [self.window makeKeyAndVisible];
   return YES;
 }
 
