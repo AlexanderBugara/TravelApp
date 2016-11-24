@@ -18,4 +18,10 @@
   
 }
 
+- (void)accept:(UIButton *)button sender:(TATabBarView *)sender {
+  if ([sender respondsToSelector:@selector(buttonDidTup:)]) {
+    [button addTarget:sender action:@selector(buttonDidTup:) forControlEvents:UIControlEventTouchUpInside];
+  }
+}
+
 @end

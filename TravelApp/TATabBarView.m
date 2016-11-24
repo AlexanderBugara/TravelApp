@@ -11,6 +11,7 @@
 #import "TATabBarItem.h"
 #import "Masonry.h"
 
+
 @implementation TATabBarViewConfiguration
 
 - (UIEdgeInsets)tabBarViewEdgeInsets {
@@ -28,7 +29,7 @@
 @property (assign) CGRect expandedFrame;
 @property (nonatomic, strong) TATabBarViewConfiguration *configuration;
 @property (nonatomic, strong) NSMutableArray *buttons;
-
+@property (nonatomic, strong) TATabBarViewState *state;
 @end
 
 @implementation TATabBarView
@@ -74,7 +75,8 @@
 - (void)addButtonWithItem:(TATabBarItem *)item atIndex:(NSInteger)index {
   UIButton *button = [[UIButton alloc] init];
   [button setImage:item.image forState:UIControlStateNormal];
-  [button addTarget:self action:@selector(buttonDidTup:) forControlEvents:UIControlEventTouchUpInside];
+  [item accept:button sender:self];
+  
   [self.buttons insertObject:button atIndex:index];
   [self addSubview:button];
   
@@ -123,6 +125,66 @@
 
 - (void)buttonDidTup:(id)sender {
   [self.delegate tabBarView:self didTapAtIndex:[self.buttons indexOfObject:sender]];
+}
+
+- (void)centerButtonDidTup:(id)sender {
+  [self.state change];
+}
+
+- (void)setState:(TATabBarViewState *)state 
+          sender:(TATabBarViewState *)sender {
+  if ([sender isKindOfClass:[TATabBarViewState class]] && state != sender) {
+    self.state = state;
+  }
+}
+
+- (TATabBarViewState *)state {
+  if (!_state) {
+    _state = [self collapsedState];
+  }
+  return _state;
+}
+
+- (TACollapsedState *)collapsedState {
+  return [[TACollapsedState alloc] initWithTabBarView:self];
+}
+
+- (TATExpandedState *)expandedState {
+  return [[TATExpandedState alloc] initWithTabBarView:self];
+}
+@end
+
+
+@interface TATabBarViewState ()
+@property (nonatomic, weak) TATabBarView *tabBarView;
+@end
+
+@implementation TATabBarViewState
+- (id)initWithTabBarView:(TATabBarView *)tabBarView {
+  if (self = [super init]) {
+    _tabBarView = tabBarView;
+  }
+  return self;
+}
+
+- (void)change {
+  //override in child
+}
+
+- (TATabBarView *)tabBarView {
+  return _tabBarView;
+}
+@end
+
+@implementation TATExpandedState
+- (void)change {
+  [self.tabBarView setState:[self.tabBarView collapsedState]];
+}
+@end
+
+@implementation TACollapsedState
+- (void)change {
+  [self.tabBarView setState:[self.tabBarView expandedState]];
 }
 
 @end

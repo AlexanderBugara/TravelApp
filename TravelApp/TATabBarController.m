@@ -10,13 +10,18 @@
 #import "TATabBarView.h"
 #import "UIView+Geometry.h"
 #import "TATabBarItem.h"
+#import "TATabBarCenterItem.h"
 
+@interface TATabBarConfiguration ()
+@property (nonatomic, strong, readwrite) NSArray *items;
+@end
 
 @implementation TATabBarConfiguration
 
 - (instancetype)init {
   if (self = [super init]) {
-    _items = [self itemsFromFileNames:@[@"plain",@"train",@"plus",@"bus",@"sort"]];
+    _items = [self itemsFromFileNames:@[@"plain",@"train",@"bus",@"sort"]];
+    [self setupCenterItem];
   }
   return self;
 }
@@ -27,6 +32,24 @@
     [temp addObject:[[TATabBarItem alloc] initWithIconName:fileName]];
   }
   return [temp copy];
+}
+
+- (TATabBarItem *)centerItem {
+  if ([self.items count] == 0) return nil;
+  
+  NSInteger index = [self.items count]/2;
+  return self.items[index];
+}
+
+
+- (void)setupCenterItem {
+  if ([self.items count] > 0) {
+    NSInteger index = [self.items count]/2;
+    NSMutableArray *mutItems = [_items mutableCopy];
+    [mutItems insertObject:[[TATabBarCenterItem alloc] initWithIconName:@"plus"] 
+                   atIndex:index];
+    self.items = [mutItems copy];
+  }
 }
 
 @end
@@ -88,6 +111,8 @@
 
 - (void)tabBarView:(TATabBarView *)tabBarView
      didTapAtIndex:(NSInteger)index {
+  
+  
   self.selectedIndex = index;
 }
 

@@ -10,6 +10,7 @@
 		11BFC2A31DE5BCEE009BC9A3 /* UIView+Geometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BFC2A21DE5BCEE009BC9A3 /* UIView+Geometry.m */; };
 		11BFC2A61DE5CCF7009BC9A3 /* TAConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BFC2A51DE5CCF7009BC9A3 /* TAConstants.m */; };
 		11BFC2A91DE5CE74009BC9A3 /* TATabBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BFC2A81DE5CE74009BC9A3 /* TATabBarItem.m */; };
+		11BFC2AF1DE71FB4009BC9A3 /* TATabBarCenterItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BFC2AE1DE71FB4009BC9A3 /* TATabBarCenterItem.m */; };
 		11CBC6F81DDC1B35008BE9C2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CBC6F71DDC1B35008BE9C2 /* main.m */; };
 		11CBC6FB1DDC1B35008BE9C2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CBC6FA1DDC1B35008BE9C2 /* AppDelegate.m */; };
 		11CBC7031DDC1B35008BE9C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11CBC7021DDC1B35008BE9C2 /* Assets.xcassets */; };
@@ -28,6 +29,8 @@
 		11BFC2A51DE5CCF7009BC9A3 /* TAConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAConstants.m; sourceTree = "<group>"; };
 		11BFC2A71DE5CE74009BC9A3 /* TATabBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TATabBarItem.h; sourceTree = "<group>"; };
 		11BFC2A81DE5CE74009BC9A3 /* TATabBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TATabBarItem.m; sourceTree = "<group>"; };
+		11BFC2AD1DE71FB4009BC9A3 /* TATabBarCenterItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TATabBarCenterItem.h; sourceTree = "<group>"; };
+		11BFC2AE1DE71FB4009BC9A3 /* TATabBarCenterItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TATabBarCenterItem.m; sourceTree = "<group>"; };
 		11CBC6F31DDC1B35008BE9C2 /* TravelApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TravelApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11CBC6F71DDC1B35008BE9C2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		11CBC6F91DDC1B35008BE9C2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -105,6 +108,8 @@
 				11BFC2A51DE5CCF7009BC9A3 /* TAConstants.m */,
 				11BFC2A71DE5CE74009BC9A3 /* TATabBarItem.h */,
 				11BFC2A81DE5CE74009BC9A3 /* TATabBarItem.m */,
+				11BFC2AD1DE71FB4009BC9A3 /* TATabBarCenterItem.h */,
+				11BFC2AE1DE71FB4009BC9A3 /* TATabBarCenterItem.m */,
 			);
 			path = TravelApp;
 			sourceTree = "<group>";
@@ -254,6 +259,7 @@
 				11CBC7121DDC3421008BE9C2 /* TATravelTableViewController.m in Sources */,
 				11BFC2A61DE5CCF7009BC9A3 /* TAConstants.m in Sources */,
 				11BFC2A31DE5BCEE009BC9A3 /* UIView+Geometry.m in Sources */,
+				11BFC2AF1DE71FB4009BC9A3 /* TATabBarCenterItem.m in Sources */,
 				11CBC6F81DDC1B35008BE9C2 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

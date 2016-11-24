@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@class TATabBarController, TATabBarView, TATabBarItem;
+@class TATabBarController, TATabBarView, TATabBarItem, TATabBarViewState;
 
 @protocol TATabBarDelegate <NSObject>
 - (void)tabBarView:(TATabBarView *)tabBarView didTapAtIndex:(NSInteger)index;
@@ -32,5 +32,19 @@
 
 - (instancetype)initWithController:(TATabBarController *)controller
                      configuration:(TATabBarViewConfiguration *)configuration;
+- (void)setState:(TATabBarViewState *)state sender:(TATabBarViewState *)sender;
+- (void)buttonDidTup:(id)sender;
+- (void)centerButtonDidTup:(id)sender;
+@end
+
+@interface TATabBarViewState : NSObject
+- (id)initWithTabBarView:(TATabBarView *)tabBarView;
+- (void)change;
+- (TATabBarView *)tabBarView;
+@end
+@interface TACollapsedState : TATabBarViewState
+
+@end
+@interface TATExpandedState : TATabBarViewState
 
 @end

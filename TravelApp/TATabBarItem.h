@@ -8,8 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "TATabBarView.h"
 
 @interface TATabBarItem : NSObject
 @property (nonatomic, strong, readonly) UIImage *image;
 - (instancetype)initWithIconName:(NSString *)iconName;
+
+- (void)accept:(UIButton *)button sender:(TATabBarView *)sender;
 @end

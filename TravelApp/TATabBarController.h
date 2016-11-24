@@ -11,6 +11,7 @@
 
 @interface TATabBarConfiguration : NSObject
 @property (nonatomic, strong, readonly) NSArray *items;
+@property (nonatomic, strong, readonly) TATabBarItem *centerItem;
 @end
 
 
