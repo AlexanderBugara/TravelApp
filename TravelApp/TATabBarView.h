@@ -9,15 +9,14 @@
 #import <UIKit/UIKit.h>
 
 
-@class TATabBarController, TATabBarView;
+@class TATabBarController, TATabBarView, TATabBarItem;
 
 @protocol TATabBarDelegate <NSObject>
-
+- (void)tabBarView:(TATabBarView *)tabBarView didTapAtIndex:(NSInteger)index;
 @end
 
 @protocol TATabBarDataSource <NSObject>
-- (NSArray *)leftItems:(TATabBarView *)tabBarView;
-- (NSArray *)rightItems:(TATabBarView *)tabBarView;
+- (NSArray *)items:(TATabBarView *)tabBarView;
 @end
 
 

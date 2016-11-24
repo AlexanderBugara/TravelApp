@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface TATabBarItem : NSObject
+@property (nonatomic, strong, readonly) UIImage *image;
 - (instancetype)initWithIconName:(NSString *)iconName;
 @end

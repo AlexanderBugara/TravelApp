@@ -10,8 +10,7 @@
 #import "TATabBarView.h"
 
 @interface TATabBarConfiguration : NSObject
-@property (nonatomic, strong, readonly) NSArray *leftItems;
-@property (nonatomic, strong, readonly) NSArray *rightItems;
+@property (nonatomic, strong, readonly) NSArray *items;
 @end
 
 

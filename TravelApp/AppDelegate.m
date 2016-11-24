@@ -21,13 +21,36 @@
   
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   
-  UINavigationController *navigationController = [UINavigationController new];
+  
   
   TATabBarController *tabBarVeiwController = [[TATabBarController alloc] initWithConfig:[TATabBarConfiguration new]];
-  [tabBarVeiwController setViewControllers:@[[TATravelTableViewController new],[TATravelTableViewController new]]];
   
-  [navigationController setViewControllers:@[tabBarVeiwController]];
-  self.window.rootViewController = navigationController;
+  
+  UINavigationController *navigationController1 = [UINavigationController new];
+  TATravelTableViewController *first = [TATravelTableViewController new];
+  first.navigationItem.title = @"first";
+  navigationController1.viewControllers = @[first];
+  
+  
+  UINavigationController *navigationController2 = [UINavigationController new];
+  TATravelTableViewController *second = [TATravelTableViewController new];
+  second.navigationItem.title = @"second";
+  navigationController2.viewControllers = @[second];
+  
+  UINavigationController *navigationController3 = [UINavigationController new];
+  TATravelTableViewController *thread = [TATravelTableViewController new];
+  thread.navigationItem.title = @"thread";
+  navigationController3.viewControllers = @[thread];
+  
+  UINavigationController *navigationController4 = [UINavigationController new];
+  TATravelTableViewController *fours = [TATravelTableViewController new];
+  fours.navigationItem.title = @"fours";
+  navigationController4.viewControllers = @[fours];
+  
+  //[tabBarVeiwController setViewControllers:@[first,second , thread, fours]];
+  [tabBarVeiwController setViewControllers:@[navigationController1,navigationController2 , navigationController3, navigationController4]];
+  
+  self.window.rootViewController = tabBarVeiwController;
   
   [self.window makeKeyAndVisible];
   return YES;

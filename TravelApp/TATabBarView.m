@@ -8,6 +8,8 @@
 
 #import "TATabBarView.h"
 #import "TAConstants.h"
+#import "TATabBarItem.h"
+#import "Masonry.h"
 
 @implementation TATabBarViewConfiguration
 
@@ -25,6 +27,7 @@
 @property (nonatomic, weak) UIView *mainView;
 @property (assign) CGRect expandedFrame;
 @property (nonatomic, strong) TATabBarViewConfiguration *configuration;
+@property (nonatomic, strong) NSMutableArray *buttons;
 
 @end
 
@@ -44,7 +47,7 @@
 
 - (void)setup {
   [self setupMainView];
-  [self setupCenterButton];
+  [self setupButtons];
 }
 
 - (void)setupMainView {
@@ -67,143 +70,59 @@
 }
 
 
-- (void)setupCenterButton {
-//  self.centerButton = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMidX(self.mainView.frame) - CGRectGetHeight(self.mainView.frame) / 2.0f,
-//                                                                 CGRectGetMidY(self.mainView.frame) - CGRectGetHeight(self.mainView.frame) / 2.f,
-//                                                                 CGRectGetHeight(self.mainView.frame),
-//                                                                 CGRectGetHeight(self.mainView.frame))];
-//  
-//  self.centerButton.layer.cornerRadius = CGRectGetHeight(self.mainView.bounds) / 2.f;
-//  
-//  if ([self.dataSource respondsToSelector:@selector(centerImageInTabBarView:)]) {
-//    [self.centerButton setImage:[self.dataSource centerImageInTabBarView:self] forState:UIControlStateNormal];
-//  }
-//  
-//  [self.centerButton addTarget:self action:@selector(centerButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-//  self.centerButton.adjustsImageWhenHighlighted = NO;
-//  
-//  [self addSubview:self.centerButton];
+
+- (void)addButtonWithItem:(TATabBarItem *)item atIndex:(NSInteger)index {
+  UIButton *button = [[UIButton alloc] init];
+  [button setImage:item.image forState:UIControlStateNormal];
+  [button addTarget:self action:@selector(buttonDidTup:) forControlEvents:UIControlEventTouchUpInside];
+  [self.buttons insertObject:button atIndex:index];
+  [self addSubview:button];
+  
+  UIButton *previousButton = [self buttonBefore:button];
+  
+  [button mas_makeConstraints:^(MASConstraintMaker *make) {
+    
+    if (previousButton)
+      make.left.equalTo(previousButton.mas_right).offset(10);
+    else 
+      make.left.equalTo(@10);
+    
+    make.centerY.equalTo(self);
+    make.height.equalTo(self);
+    make.width.equalTo(@60);
+  }];
 }
 
 
-- (void)setupAdditionalTabBarItems {
-  NSArray *leftTabBarItems = [self.dataSource leftItems:self];
-  NSArray *rightTabBarItems = [self.dataSource rightItems:self];
-  
-  
-  
-  NSUInteger numberOfLeftTabBarButtonItems = [leftTabBarItems count];
-  NSUInteger numberOfRightTabBarButtonItems = [rightTabBarItems count];
-  
-  //calculate available space for left and right side
-  CGFloat availableSpaceForAdditionalBarButtonItemLeft = CGRectGetWidth(self.mainView.frame) / 2.f - CGRectGetWidth(self.centerButton.frame) / 2.f - self.tabBarItemsEdgeInsets.left;
-  
-  CGFloat availableSpaceForAdditionalBarButtonItemRight = CGRectGetWidth(self.mainView.frame) / 2.f - CGRectGetWidth(self.centerButton.frame) / 2.f - self.tabBarItemsEdgeInsets.right;
-  
-  CGFloat maxWidthForLeftBarButonItem = availableSpaceForAdditionalBarButtonItemLeft / numberOfLeftTabBarButtonItems;
-  CGFloat maxWidthForRightBarButonItem = availableSpaceForAdditionalBarButtonItemRight / numberOfRightTabBarButtonItems;
-  
-  NSMutableArray * reverseArrayLeft = [NSMutableArray arrayWithCapacity:[self.leftButtonsArray count]];
-  
-  for (id element in [leftTabBarItems reverseObjectEnumerator]) {
-    [reverseArrayLeft addObject:element];
+
+
+- (UIButton *)buttonBefore:(UIButton *)button {
+  NSInteger index = [self.buttons indexOfObject:button];
+  if (index > 0) {
+    return self.buttons[index - 1];
   }
+  return nil;
+}
+
+- (void)setupButtons {
+  NSArray *items = [self.dataSource items:self];
   
-  NSMutableArray *mutableArray = [NSMutableArray array];
-  NSMutableArray *mutableDotsArray = [NSMutableArray array];
-  
-  CGFloat deltaLeft = 0.f;
-  if (maxWidthForLeftBarButonItem > CGRectGetWidth(self.centerButton.frame)) {
-    deltaLeft = maxWidthForLeftBarButonItem - CGRectGetWidth(self.centerButton.frame);
+  NSInteger index = 0;
+  for (TATabBarItem *item in items) {
+    [self addButtonWithItem:item atIndex:index];
+    ++index;
   }
-  
-  CGFloat startPositionLeft = CGRectGetWidth(self.mainView.bounds) / 2.f - CGRectGetWidth(self.centerButton.frame) / 2.f - self.tabBarItemsEdgeInsets.left - deltaLeft / 2.f;
-  
-  for (int i = 0; i < numberOfLeftTabBarButtonItems; i++) {
-    CGFloat buttonOriginX = startPositionLeft - maxWidthForLeftBarButonItem * (i+1);
-    CGFloat buttonOriginY = 0.f;
-    
-    CGFloat buttonWidth = maxWidthForLeftBarButonItem;
-    CGFloat buttonHeight = CGRectGetHeight(self.mainView.frame);
-    
-    startPositionLeft -= self.tabBarItemsEdgeInsets.right;
-    
-    YALTabBarItem *item = reverseArrayLeft[i];
-    UIImage *image = item.itemImage;
-    
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(buttonOriginX, buttonOriginY, buttonWidth, buttonHeight)];
-    
-    if (numberOfLeftTabBarButtonItems == 1) {
-      CGRect rect = button.frame;
-      rect.size.width = CGRectGetHeight(self.mainView.frame);
-      button.bounds = rect;
-    }
-    
-    [button setImage:image forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(didTapBarItem:) forControlEvents:UIControlEventTouchUpInside];
-    
-    if (self.state == YALTabBarStateCollapsed) {
-      button.hidden = YES;
-    }
-    
-    
-    [mutableArray addObject:button];
-    button.adjustsImageWhenHighlighted = NO;
-    
-    [self.mainView addSubview:button];
+}
+
+- (NSMutableArray *)buttons {
+  if (!_buttons) {
+    _buttons = [NSMutableArray array];
   }
-  
-  NSMutableArray * reverseArrayLeftDotViews = [NSMutableArray arrayWithCapacity:[mutableDotsArray count]];
-  
-  for (id element in [mutableDotsArray reverseObjectEnumerator]) {
-    [reverseArrayLeft addObject:element];
-  }
-  mutableDotsArray = reverseArrayLeftDotViews;
-  
-  self.leftButtonsArray = [mutableArray copy];
-  
-  [mutableArray removeAllObjects];
-  
-  CGFloat rightDelta = 0.f;
-  if (maxWidthForRightBarButonItem > CGRectGetWidth(self.centerButton.frame)) {
-    rightDelta = maxWidthForRightBarButonItem - CGRectGetWidth(self.centerButton.frame);
-  }
-  
-  CGFloat rightOffset = self.tabBarItemsEdgeInsets.right;
-  CGFloat startPositionRight = CGRectGetWidth(self.mainView.bounds) / 2.f + CGRectGetWidth(self.centerButton.frame) / 2.f + self.tabBarItemsEdgeInsets.right
-  + rightDelta / 2.f;
-  
-  for (int i = 0; i < numberOfRightTabBarButtonItems; i++) {
-    CGFloat buttonOriginX = startPositionRight;
-    CGFloat buttonOriginY = 0.f;
-    CGFloat buttonWidth = maxWidthForRightBarButonItem;
-    CGFloat buttonHeight = CGRectGetHeight(self.mainView.frame);
-    
-    startPositionRight = buttonOriginX + maxWidthForRightBarButonItem + rightOffset;
-    
-    YALTabBarItem *item = rightTabBarItems [i];
-    UIImage *image = item.itemImage;
-    
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(buttonOriginX, buttonOriginY, buttonWidth, buttonHeight)];
-    
-    if (numberOfLeftTabBarButtonItems == 1) {
-      CGRect rect = button.frame;
-      rect.size.width = CGRectGetHeight(self.mainView.frame);
-      button.bounds = rect;
-    }
-    
-    [button setImage:image forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(didTapBarItem:) forControlEvents:UIControlEventTouchUpInside];
-    
-    if (self.state == YALTabBarStateCollapsed) {
-      button.hidden = YES;
-    }
-    [mutableArray addObject:button];
-    button.adjustsImageWhenHighlighted = NO;
-    [self.mainView addSubview:button];
-  }
-  
-  self.rightButtonsArray = [mutableArray copy];
+  return _buttons;
+}
+
+- (void)buttonDidTup:(id)sender {
+  [self.delegate tabBarView:self didTapAtIndex:[self.buttons indexOfObject:sender]];
 }
 
 @end

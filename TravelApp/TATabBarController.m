@@ -16,8 +16,7 @@
 
 - (instancetype)init {
   if (self = [super init]) {
-    _leftItems = [self itemsFromFileNames:@[@"plain",@"train"]];
-    _rightItems = [self itemsFromFileNames:@[@"bus",@"sort"]];
+    _items = [self itemsFromFileNames:@[@"plain",@"train",@"plus",@"bus",@"sort"]];
   }
   return self;
 }
@@ -73,9 +72,9 @@
  
   [self.tabBar addSubview:self.tabBarView];
   
-  [self.tabBar setOrigin:CGPointMake(0, [self.topLayoutGuide length])];
+ // [self.tabBar setOrigin:CGPointMake(0, [self.topLayoutGuide length])];
   
- }
+}
 
 
 - (void)setupTabBarView {
@@ -83,13 +82,13 @@
                                                configuration:[TATabBarViewConfiguration new]];
 }
 
-- (NSArray *)leftItems:(TATabBarView *)tabBarView {
-  return self.configuration.leftItems;
+- (NSArray *)items:(TATabBarView *)tabBarView {
+  return self.configuration.items;
 }
 
-- (NSArray *)rightItems:(TATabBarView *)tabBarView {
-  return self.configuration.rightItems;
+- (void)tabBarView:(TATabBarView *)tabBarView
+     didTapAtIndex:(NSInteger)index {
+  self.selectedIndex = index;
 }
-
 
 @end
