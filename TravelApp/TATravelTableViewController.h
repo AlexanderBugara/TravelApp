@@ -12,4 +12,7 @@
 
 @interface TATravelTableViewController : UITableViewController
 - (instancetype)initWithNetworkContext:(TANetworkContext *)context;
+@property (nonatomic, strong, readonly) TANetworkContext *networkContext;
+@property (nonatomic, strong) NSArray *trips;
+@property (nonatomic, strong) NSError *error;
 @end

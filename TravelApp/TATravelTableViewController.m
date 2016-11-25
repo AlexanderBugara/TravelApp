@@ -7,22 +7,48 @@
 //
 
 #import "TATravelTableViewController.h"
+#import "TAContentOperation.h"
+#import "TAContentOPerationCreator.h"
 
 @interface TATravelTableViewController ()
-@property (nonatomic, strong) TANetworkContext *networkContext;
+@property (nonatomic, strong, readwrite) TANetworkContext *networkContext;
+@property (nonatomic, strong, readwrite) NSOperationQueue *operationQueue;
 @end
 
 @implementation TATravelTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.tabBarItem.title = @"tttest";
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+  
+    [self addObserver:self forKeyPath:@"trips" options:NSKeyValueObservingOptionNew context:nil];
+  
+    TAContentOPerationCreator *creator = [[TAContentOPerationCreator alloc] initWithTravelTableViewController:self];
+    [creator create];
+    [self.operationQueue addOperations:[creator operations] waitUntilFinished:NO];
 }
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object 
+                        change:(NSDictionary<NSKeyValueChangeKey,id> *)change
+                       context:(void *)context {
+  
+  __weak __typeof (self) weakSelf = self;
+  
+  if ([keyPath isEqualToString:@"trips"]) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [weakSelf.tableView reloadData];
+    });
+  }
+}
+
+- (NSOperationQueue *)operationQueue {
+  if (!_operationQueue) {
+    _operationQueue = [NSOperationQueue new];
+    _operationQueue.maxConcurrentOperationCount = 8;
+  }
+  return _operationQueue;
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -101,4 +127,9 @@
   }
   return self;
 }
+
+- (void)dealloc {
+  [self removeObserver:self forKeyPath:@"trips"];
+}
+
 @end

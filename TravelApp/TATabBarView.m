@@ -139,6 +139,8 @@
 
 - (void)setupButton:(UIButton *)button {
   
+  
+  [button addTarget:self action:@selector(buttonDidTup:) forControlEvents:UIControlEventTouchUpInside];
   [self.mainView addSubview:button];
   [self.buttons addObject:button];
   
