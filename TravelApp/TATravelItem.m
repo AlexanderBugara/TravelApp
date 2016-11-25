@@ -17,7 +17,7 @@
     @try {
       [self traverceInPropertiesWithBlock:^(NSString *name) {
         if ([name isEqualToString:@"id_"]) {
-          [self setValue:json[@"id"] forKey:@"id"];
+          [self setValue:json[@"id"] forKey:@"id_"];
         } else {
           [self setValue:json[name] forKey:name];
         }

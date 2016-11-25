@@ -9,6 +9,8 @@
 #import "TATravelTableViewController.h"
 #import "TAContentOperation.h"
 #import "TAContentOPerationCreator.h"
+#import "TATravelItem.h"
+#import "TATripTableViewCell.h"
 
 @interface TATravelTableViewController ()
 @property (nonatomic, strong, readwrite) TANetworkContext *networkContext;
@@ -20,11 +22,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
   
-    [self addObserver:self forKeyPath:@"trips" options:NSKeyValueObservingOptionNew context:nil];
+  self.tableView.rowHeight = UITableViewAutomaticDimension;
+  self.tableView.estimatedRowHeight = 44.0;
   
+  [self.tableView registerClass:[TATripTableViewCell class] forCellReuseIdentifier:@"tripCell"];
+  [self addObserver:self forKeyPath:@"trips" options:NSKeyValueObservingOptionNew context:nil];
+  
+  if (self.networkContext) {
     TAContentOPerationCreator *creator = [[TAContentOPerationCreator alloc] initWithTravelTableViewController:self];
     [creator create];
     [self.operationQueue addOperations:[creator operations] waitUntilFinished:NO];
+  }
+  
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -43,8 +52,8 @@
 
 - (NSOperationQueue *)operationQueue {
   if (!_operationQueue) {
-    _operationQueue = [NSOperationQueue new];
-    _operationQueue.maxConcurrentOperationCount = 8;
+      _operationQueue = [NSOperationQueue new];
+      _operationQueue.maxConcurrentOperationCount = 8;
   }
   return _operationQueue;
 }
@@ -52,74 +61,36 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    self.trips = nil;
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Incomplete implementation, return the number of sections
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of rows
-    return 0;
+    return [self.trips count];
 }
 
-/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
-    return cell;
+  
+  static NSString *CellIdentifier = @"tripCell";
+  
+  TATripTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+  if (!cell) {
+    cell = [[TATripTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+  }
+  
+  TATravelItem *travelItem = self.trips[indexPath.row];
+  
+  [cell configureWith:travelItem];
+  [cell setNeedsUpdateConstraints];
+  [cell updateConstraintsIfNeeded];
+  
+  return cell;
 }
-*/
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 - (instancetype)initWithNetworkContext:(TANetworkContext *)context {
   if (self = [super init]) {
@@ -130,6 +101,10 @@
 
 - (void)dealloc {
   [self removeObserver:self forKeyPath:@"trips"];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  
 }
 
 @end

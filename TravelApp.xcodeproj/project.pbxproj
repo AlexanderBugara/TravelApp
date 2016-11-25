@@ -29,6 +29,8 @@
 		11BFC2F51DE848C2009BC9A3 /* TATravelItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BFC2F41DE848C2009BC9A3 /* TATravelItem.m */; };
 		11BFC2FA1DE84DCB009BC9A3 /* TAStoreOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BFC2F91DE84DCB009BC9A3 /* TAStoreOperation.m */; };
 		11BFC2FD1DE84E06009BC9A3 /* TASerializerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BFC2FC1DE84E06009BC9A3 /* TASerializerOperation.m */; };
+		11BFC3011DE86617009BC9A3 /* TATripTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BFC3001DE86617009BC9A3 /* TATripTableViewCell.m */; };
+		11BFC3041DE882AB009BC9A3 /* TAThumbnailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BFC3031DE882AB009BC9A3 /* TAThumbnailView.m */; };
 		11CBC6F81DDC1B35008BE9C2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CBC6F71DDC1B35008BE9C2 /* main.m */; };
 		11CBC6FB1DDC1B35008BE9C2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CBC6FA1DDC1B35008BE9C2 /* AppDelegate.m */; };
 		11CBC7031DDC1B35008BE9C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11CBC7021DDC1B35008BE9C2 /* Assets.xcassets */; };
@@ -84,6 +86,10 @@
 		11BFC2F91DE84DCB009BC9A3 /* TAStoreOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAStoreOperation.m; sourceTree = "<group>"; };
 		11BFC2FB1DE84E06009BC9A3 /* TASerializerOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TASerializerOperation.h; sourceTree = "<group>"; };
 		11BFC2FC1DE84E06009BC9A3 /* TASerializerOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TASerializerOperation.m; sourceTree = "<group>"; };
+		11BFC2FF1DE86617009BC9A3 /* TATripTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TATripTableViewCell.h; sourceTree = "<group>"; };
+		11BFC3001DE86617009BC9A3 /* TATripTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TATripTableViewCell.m; sourceTree = "<group>"; };
+		11BFC3021DE882AB009BC9A3 /* TAThumbnailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAThumbnailView.h; sourceTree = "<group>"; };
+		11BFC3031DE882AB009BC9A3 /* TAThumbnailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAThumbnailView.m; sourceTree = "<group>"; };
 		11CBC6F31DDC1B35008BE9C2 /* TravelApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TravelApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11CBC6F71DDC1B35008BE9C2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		11CBC6F91DDC1B35008BE9C2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -262,6 +268,10 @@
 				11BFC2B31DE771BE009BC9A3 /* CATransaction+Extend.m */,
 				11BFC2B51DE7774D009BC9A3 /* TAAnimationManager.h */,
 				11BFC2B61DE7774D009BC9A3 /* TAAnimationManager.m */,
+				11BFC2FF1DE86617009BC9A3 /* TATripTableViewCell.h */,
+				11BFC3001DE86617009BC9A3 /* TATripTableViewCell.m */,
+				11BFC3021DE882AB009BC9A3 /* TAThumbnailView.h */,
+				11BFC3031DE882AB009BC9A3 /* TAThumbnailView.m */,
 			);
 			path = TravelApp;
 			sourceTree = "<group>";
@@ -413,9 +423,11 @@
 				11BFC2CD1DE7D51C009BC9A3 /* TANetworkManager.m in Sources */,
 				11BFC2E21DE82B58009BC9A3 /* TAContentOperation.m in Sources */,
 				11CBC6FB1DDC1B35008BE9C2 /* AppDelegate.m in Sources */,
+				11BFC3011DE86617009BC9A3 /* TATripTableViewCell.m in Sources */,
 				11BFC2EE1DE83B67009BC9A3 /* TAParseOperation.m in Sources */,
 				11BFC2EB1DE8363D009BC9A3 /* TAContentOPerationCreator.m in Sources */,
 				11BFC2FD1DE84E06009BC9A3 /* TASerializerOperation.m in Sources */,
+				11BFC3041DE882AB009BC9A3 /* TAThumbnailView.m in Sources */,
 				11BFC2DB1DE7D8B7009BC9A3 /* TAJSONParser.m in Sources */,
 				11BFC2D51DE7D57A009BC9A3 /* TAParser.m in Sources */,
 				11CBC7121DDC3421008BE9C2 /* TATravelTableViewController.m in Sources */,
