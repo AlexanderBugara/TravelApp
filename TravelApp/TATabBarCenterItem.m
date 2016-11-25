@@ -9,9 +9,9 @@
 #import "TATabBarCenterItem.h"
 
 @implementation TATabBarCenterItem
+
 - (void)accept:(UIButton *)button sender:(TATabBarView *)sender {
-  if ([sender respondsToSelector:@selector(centerButtonDidTup:)]) {
-    [button addTarget:sender action:@selector(centerButtonDidTup:) forControlEvents:UIControlEventTouchUpInside];
-  }
+  [sender setupCenterButton:button];
 }
+
 @end

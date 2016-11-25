@@ -10,4 +10,7 @@
 
 @interface UIView (Geometry)
 - (void)setOrigin:(CGPoint)origin;
+- (CGFloat)height_;
+- (CGFloat)width_;
+- (CGFloat)centerX_;
 @end
