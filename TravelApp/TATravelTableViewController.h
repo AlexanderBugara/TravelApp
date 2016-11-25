@@ -8,5 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class TANetworkContext;
+
 @interface TATravelTableViewController : UITableViewController
+- (instancetype)initWithNetworkContext:(TANetworkContext *)context;
 @end

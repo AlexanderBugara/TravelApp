@@ -18,4 +18,5 @@
 @interface TATabBarController : UITabBarController<TATabBarDelegate, TATabBarDataSource>
 @property (nonatomic, strong) TATabBarView *tabBarView;
 - (instancetype)initWithConfig:(TATabBarConfiguration *)configuration;
+- (void)setup;
 @end

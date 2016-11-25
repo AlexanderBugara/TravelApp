@@ -11,6 +11,8 @@
 #import "UIView+Geometry.h"
 #import "TATabBarItem.h"
 #import "TATabBarCenterItem.h"
+#import "TANetworkContext.h"
+#import "TATravelTableViewController.h"
 
 @interface TATabBarConfiguration ()
 @property (nonatomic, strong, readwrite) NSArray *items;
@@ -71,6 +73,7 @@
   self = [super init];
   if (self) {
     [self setupTabBarView];
+    [self setup];
   }
   return self;
 }
@@ -79,6 +82,7 @@
   if (self = [super init]) {
     _configuration = configuration;
     [self setupTabBarView];
+    [self setup];
   }
   return self;
 }
@@ -115,6 +119,38 @@
   
   self.selectedIndex = index;
 }
+
+- (void)setup {
+  
+  NSArray *tittles = @[@"Flights", @"Trains", @"Buses", @"Sort"];
+  
+  NSArray *networkContexts = @[[TANetworkContext flights],[TANetworkContext trains],[TANetworkContext buses]];
+  NSMutableArray *tabBarControllerContent = [NSMutableArray array];
+  
+  for (int i = 0; i < [tittles count]; i++) {
+    
+    TANetworkContext *context = nil;
+    if (i < [networkContexts count])
+      context = networkContexts[i];
+    
+    UINavigationController *navigationController = [self tabBarControllerWithContext:context title:tittles[i]];
+    [tabBarControllerContent addObject:navigationController];
+  }
+  
+  [self setViewControllers:tabBarControllerContent animated:YES];
+}
+
+- (UINavigationController *)tabBarControllerWithContext:(TANetworkContext *)context
+                                                  title:(NSString *)title {
+  
+  UINavigationController *navigationController = [UINavigationController new];
+  TATravelTableViewController *first = [[TATravelTableViewController alloc] initWithNetworkContext:context];
+  first.navigationItem.title = title;
+  navigationController.viewControllers = @[first];
+  return navigationController;
+  
+}
+
 
 
 @end

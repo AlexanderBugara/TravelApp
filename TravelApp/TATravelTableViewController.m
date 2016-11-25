@@ -9,7 +9,7 @@
 #import "TATravelTableViewController.h"
 
 @interface TATravelTableViewController ()
-
+@property (nonatomic, strong) TANetworkContext *networkContext;
 @end
 
 @implementation TATravelTableViewController
@@ -95,4 +95,10 @@
 }
 */
 
+- (instancetype)initWithNetworkContext:(TANetworkContext *)context {
+  if (self = [super init]) {
+    _networkContext = context;
+  }
+  return self;
+}
 @end

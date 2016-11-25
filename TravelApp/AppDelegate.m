@@ -10,6 +10,7 @@
 #import "TATabBarController.h"
 #import "TATravelTableViewController.h"
 
+
 @interface AppDelegate ()
 
 @end
@@ -17,39 +18,13 @@
 @implementation AppDelegate
 
 
+
+
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   
-  self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-  
-  
-  
-  TATabBarController *tabBarVeiwController = [[TATabBarController alloc] initWithConfig:[TATabBarConfiguration new]];
-  
-  
-  UINavigationController *navigationController1 = [UINavigationController new];
-  TATravelTableViewController *first = [TATravelTableViewController new];
-  first.navigationItem.title = @"first";
-  navigationController1.viewControllers = @[first];
-  
-  
-  UINavigationController *navigationController2 = [UINavigationController new];
-  TATravelTableViewController *second = [TATravelTableViewController new];
-  second.navigationItem.title = @"second";
-  navigationController2.viewControllers = @[second];
-  
-  UINavigationController *navigationController3 = [UINavigationController new];
-  TATravelTableViewController *thread = [TATravelTableViewController new];
-  thread.navigationItem.title = @"thread";
-  navigationController3.viewControllers = @[thread];
-  
-  UINavigationController *navigationController4 = [UINavigationController new];
-  TATravelTableViewController *fours = [TATravelTableViewController new];
-  fours.navigationItem.title = @"fours";
-  navigationController4.viewControllers = @[fours];
-  
-  //[tabBarVeiwController setViewControllers:@[first,second , thread, fours]];
-  [tabBarVeiwController setViewControllers:@[navigationController1,navigationController2 , navigationController3, navigationController4]];
-  
+  self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds]; 
+  TATabBarController *tabBarVeiwController = [[TATabBarController alloc] initWithConfig:[TATabBarConfiguration new]];  
   self.window.rootViewController = tabBarVeiwController;
   
   [self.window makeKeyAndVisible];
