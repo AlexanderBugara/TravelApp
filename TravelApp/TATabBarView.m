@@ -326,6 +326,9 @@
   //need override
 }
 
+- (void)animateCenterButton {
+  
+}
 
 @end
 
@@ -336,6 +339,8 @@
 - (void)runAnimation {
   [CATransaction transactionAnimations:^{
     [self animateTabBarViewCollapse];
+    [self animateCenterButton];
+    
     //    [self showExtraLeftTabBarItem];
     //    [self showExtraRightTabBarItem];
     //[self animateCenterButtonCollapse];
@@ -398,6 +403,10 @@
 //                   }];
 //}
 
+- (void)animateCenterButton {
+  CAAnimation *animation = [self.animationManager animationForCenterButton];
+  [self.tabBarView.centerButton.layer addAnimation:animation forKey:nil];
+}
 
 @end
 

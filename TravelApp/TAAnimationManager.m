@@ -8,6 +8,47 @@
 
 #import "TAAnimationManager.h"
 
+
+typedef struct {
+  CFTimeInterval beginTime;
+  CFTimeInterval duration;
+  double fromValue;
+  double toValue;
+  double damping;
+  double velocity;
+} TAAnimationParameters;
+
+
+typedef struct {
+  TAAnimationParameters rotation;
+  TAAnimationParameters bounce;
+} TACenterButtonAnimationsParameters;
+
+CFTimeInterval const kExpandAnimationDuration = 1.0;
+CGFloat const kDegreeToRadiansRatio = M_PI / 180.f;
+
+TACenterButtonAnimationsParameters const kCenterButtonAnimationParameters = (TACenterButtonAnimationsParameters) {
+  .rotation = (TAAnimationParameters) {
+    .duration = kExpandAnimationDuration / 4.0,
+    .fromValue = 0.0,
+    .toValue = 315.0 * kDegreeToRadiansRatio
+  },
+  .bounce = (TAAnimationParameters) {
+    .beginTime = kExpandAnimationDuration / 4.0,
+    .fromValue = M_PI / 8.0,
+    .toValue = 0.0
+  }
+};
+
+
+TAAnimationParameters const kBounceAnimationParameters = (TAAnimationParameters) {
+  .duration = kExpandAnimationDuration * 2.0 / 3.0,
+  .damping = 0.5,
+  .velocity = 3.0
+};
+
+
+
 @implementation TAAnimationConfiguration
 
 - (instancetype)initWithDuration:(CGFloat)duration
@@ -55,18 +96,7 @@
 
 @implementation TAAnimationManager
 
-- (CAAnimation *)keyFrameWithConfiguration:(TAAnimationConfiguration *)configuration {
-  CAKeyframeAnimation *keyFrameAnimation = [CAKeyframeAnimation animationWithKeyPath:@"path"];
-  
-  keyFrameAnimation.removedOnCompletion = NO;
-  keyFrameAnimation.fillMode = kCAFillModeForwards;
-  keyFrameAnimation.duration = configuration.duration;
-  keyFrameAnimation.values = [self valuesConfiguration:configuration];
-  
-  keyFrameAnimation.timingFunction = [CAMediaTimingFunction functionWithName:configuration.functionName];
-  
-  return keyFrameAnimation;
-}
+
 
 - (NSArray *)valuesConfiguration:(TAAnimationConfiguration *)configuration {
 
@@ -103,7 +133,7 @@ static const NSUInteger kNumberOfPoints = 50;
 static const double kDampingMutiplier = 10;
 static const double kVelocityMutiplier = 10;
 
-double yal_normalizeAnimationValue(double value, double damping, double velocity) {
+double normalizeAnimationValue(double value, double damping, double velocity) {
   return pow(M_E, -damping * value) * cos(velocity * value);
 }
 
@@ -119,7 +149,7 @@ double yal_normalizeAnimationValue(double value, double damping, double velocity
   
   for (double i = 0; i < kNumberOfPoints; ++i) {
     double x = i / kNumberOfPoints;
-    double normalizedValue = yal_normalizeAnimationValue(x, damping, velocity);
+    double normalizedValue = normalizeAnimationValue(x, damping, velocity);
     double value = toValue - distanceBetweenValues * normalizedValue;
     [values addObject:@(value)];
   }
@@ -129,6 +159,54 @@ double yal_normalizeAnimationValue(double value, double damping, double velocity
   [values addObject:@(toValue)];
   
   return [NSArray arrayWithArray:values];
+}
+
+
+
+- (CAAnimation *)animationForCenterButton {
+  CABasicAnimation *rotation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+  
+  rotation.fromValue = @(M_PI / 8.0);
+  rotation.toValue = @(0.0);
+  rotation.duration = 1/4;
+  rotation.fillMode = kCAFillModeForwards;
+  rotation.removedOnCompletion = NO;
+  
+  
+  CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation.z"];
+  animation.removedOnCompletion = NO;
+  animation.fillMode = kCAFillModeForwards;
+  animation.duration = kBounceAnimationParameters.duration;
+  animation.values = [self animationValuesFromValue:kCenterButtonAnimationParameters.bounce.fromValue
+                                            toValue:kCenterButtonAnimationParameters.bounce.toValue
+                                        withDamping:kBounceAnimationParameters.damping
+                                        andVelocity:kBounceAnimationParameters.velocity];
+  
+  animation.beginTime = kCenterButtonAnimationParameters.bounce.beginTime;
+  
+  return [self groupWithAnimations:@[rotation, animation] andDuration:kExpandAnimationDuration];
+}
+
+- (CAAnimation *)keyFrameWithConfiguration:(TAAnimationConfiguration *)configuration {
+  CAKeyframeAnimation *keyFrameAnimation = [CAKeyframeAnimation animationWithKeyPath:@"path"];
+  
+  keyFrameAnimation.removedOnCompletion = NO;
+  keyFrameAnimation.fillMode = kCAFillModeForwards;
+  keyFrameAnimation.duration = configuration.duration;
+  keyFrameAnimation.values = [self valuesConfiguration:configuration];
+  
+  keyFrameAnimation.timingFunction = [CAMediaTimingFunction functionWithName:configuration.functionName];
+  
+  return keyFrameAnimation;
+}
+
+- (CAAnimationGroup *)groupWithAnimations:(NSArray *)animations andDuration:(CFTimeInterval)duration {
+  CAAnimationGroup *group = [CAAnimationGroup animation];
+  group.duration = duration;
+  group.animations = animations;
+  group.removedOnCompletion = NO;
+  group.fillMode = kCAFillModeForwards;
+  return group;
 }
 
 @end

@@ -12,6 +12,7 @@
 
 @interface TAAnimationManager : TATabBarItem
 - (CAAnimation *)keyFrameWithConfiguration:(TAAnimationConfiguration *)configuration;
+- (CAAnimation *)animationForCenterButton;
 @end
 
 
