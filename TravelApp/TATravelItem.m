@@ -18,6 +18,10 @@
       [self traverceInPropertiesWithBlock:^(NSString *name) {
         if ([name isEqualToString:@"id_"]) {
           [self setValue:json[@"id"] forKey:@"id_"];
+        } else if ([name isEqualToString:@"provider_logo"]) {
+          NSString *logoURL = json[@"provider_logo"];
+          logoURL = [logoURL stringByReplacingOccurrencesOfString:@"{size}" withString:@"63"];
+          _provider_logo = logoURL;
         } else {
           [self setValue:json[name] forKey:name];
         }

@@ -7,7 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface TAStoreManager : NSObject
-
++ (id)sharedManager;
+- (void)addImage:(UIImage *)image forhKey:(NSString *)key;
+- (UIImage *)imageForKey:(NSString *)key;
 @end

@@ -41,8 +41,8 @@
       [self.imageView_ mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(@(10));
         make.left.equalTo(@10);
-        make.height.equalTo(@63);
-        make.width.equalTo(@63);
+        make.height.equalTo(@60);
+        make.width.equalTo(@160);
       }];
     
       [self.departureArrivalTime mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -105,7 +105,6 @@
     [self.contentView addSubview:duration];
     _duration = duration;
     [_duration setTextAlignment:NSTextAlignmentRight];
-    //http://cdn-goeuro.com/static_content/web/logos/63/megabus.png 63
   }
   return self;
   
@@ -119,8 +118,7 @@
   self.duration.text = [NSString stringWithFormat:@"Direct: %@",travelItem.departure_time];
   
   
-  [self.imageView_ setImageWithURL:[NSURL URLWithString:travelItem.provider_logo] 
-                  placeholderImage:[UIImage imageNamed:@"placeholder"]];
+  [self.imageView_ setImageWithURL:[NSURL URLWithString:travelItem.provider_logo] ];
 }
 
 @end

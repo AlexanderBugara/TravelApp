@@ -9,6 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface TAThumbnailView : UIImageView
-- (void)setImageWithURL:(NSURL *)url
-       placeholderImage:(UIImage *)placeholderImage;
+- (void)setImageWithURL:(NSURL *)url;
 @end
