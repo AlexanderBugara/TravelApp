@@ -29,4 +29,12 @@
   
   return 0;
 }
+
+- (CGFloat)x_ {
+  return self.frame.origin.x;
+}
+
+- (CGFloat)y_ {
+  return self.frame.origin.y;
+}
 @end

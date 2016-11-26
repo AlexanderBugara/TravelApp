@@ -10,4 +10,10 @@
 
 @interface TAStoreOperation : TAOperation
 
+@property (nonatomic, strong, readonly) NSString *key;
+@property (nonatomic, strong) NSArray *trips;
+@property (nonatomic, strong) NSError *error;
+
+
+- (instancetype)initWithKey:(NSString *)key;
 @end

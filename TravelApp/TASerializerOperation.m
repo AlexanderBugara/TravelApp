@@ -9,7 +9,7 @@
 #import "TASerializerOperation.h"
 
 @interface TASerializerOperation ()
-@property (nonatomic, strong) NSString *key;
+
 @end
 
 @implementation TASerializerOperation
@@ -31,18 +31,4 @@
   [defaults synchronize];
 }
 
-- (NSArray *)readArrayWithCustomObjFromUserDefaults:(NSString*)keyName {
-  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-  NSData *data = [defaults objectForKey:keyName];
-  NSArray *myArray = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-  [defaults synchronize];
-  return myArray;
-}
-
-- (instancetype)initWithKey:(NSString *)key {
-  if (self = [super init]) {
-    _key = key;
-  }
-  return self;
-}
 @end

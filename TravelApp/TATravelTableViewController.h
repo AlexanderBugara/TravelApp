@@ -8,11 +8,27 @@
 
 #import <UIKit/UIKit.h>
 
-@class TANetworkContext;
+@class TANetworkContext, TATravelItem;
+
+typedef enum {
+  ByArrival,
+  ByDeparture,
+  ByDuration
+} SortType;
+
+@interface TATravelDataSource : NSObject
+@property (nonatomic, strong, readonly) NSArray *trips;
+- (NSInteger)count;
+- (TATravelItem *)travelItemAtIndex:(NSInteger)index;
+- (void)switchToSortType:(SortType)sortType;
+- (void)updateInternalStorage:(NSArray *)trips;
+@end
 
 @interface TATravelTableViewController : UITableViewController
 - (instancetype)initWithNetworkContext:(TANetworkContext *)context;
+- (void)setTrips:(NSArray *)trips;
+
 @property (nonatomic, strong, readonly) TANetworkContext *networkContext;
-@property (nonatomic, strong) NSArray *trips;
 @property (nonatomic, strong) NSError *error;
+@property (nonatomic, strong) TATravelDataSource *travelDataSource;
 @end

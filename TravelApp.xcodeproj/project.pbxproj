@@ -14,11 +14,7 @@
 		11BFC2B11DE758B5009BC9A3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11BFC2B01DE758B5009BC9A3 /* QuartzCore.framework */; };
 		11BFC2B41DE771BE009BC9A3 /* CATransaction+Extend.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BFC2B31DE771BE009BC9A3 /* CATransaction+Extend.m */; };
 		11BFC2B71DE7774D009BC9A3 /* TAAnimationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BFC2B61DE7774D009BC9A3 /* TAAnimationManager.m */; };
-		11BFC2CD1DE7D51C009BC9A3 /* TANetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BFC2CC1DE7D51C009BC9A3 /* TANetworkManager.m */; };
 		11BFC2D11DE7D556009BC9A3 /* TAStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BFC2D01DE7D556009BC9A3 /* TAStoreManager.m */; };
-		11BFC2D51DE7D57A009BC9A3 /* TAParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BFC2D41DE7D57A009BC9A3 /* TAParser.m */; };
-		11BFC2D81DE7D5A0009BC9A3 /* TANetworkContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BFC2D71DE7D5A0009BC9A3 /* TANetworkContext.m */; };
-		11BFC2DB1DE7D8B7009BC9A3 /* TAJSONParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BFC2DA1DE7D8B7009BC9A3 /* TAJSONParser.m */; };
 		11BFC2DE1DE82AF4009BC9A3 /* TAOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BFC2DD1DE82AF4009BC9A3 /* TAOperation.m */; };
 		11BFC2E21DE82B58009BC9A3 /* TAContentOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BFC2E11DE82B58009BC9A3 /* TAContentOperation.m */; };
 		11BFC2E51DE82B8F009BC9A3 /* TAThumbnailOPeration.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BFC2E41DE82B8F009BC9A3 /* TAThumbnailOPeration.m */; };
@@ -31,6 +27,8 @@
 		11BFC2FD1DE84E06009BC9A3 /* TASerializerOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BFC2FC1DE84E06009BC9A3 /* TASerializerOperation.m */; };
 		11BFC3011DE86617009BC9A3 /* TATripTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BFC3001DE86617009BC9A3 /* TATripTableViewCell.m */; };
 		11BFC3041DE882AB009BC9A3 /* TAThumbnailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BFC3031DE882AB009BC9A3 /* TAThumbnailView.m */; };
+		11BFC3071DE9B04A009BC9A3 /* TANetworkContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BFC3061DE9B049009BC9A3 /* TANetworkContext.m */; };
+		11BFC30A1DE9B0F7009BC9A3 /* TADeserializeOperatioon.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BFC3091DE9B0F7009BC9A3 /* TADeserializeOperatioon.m */; };
 		11CBC6F81DDC1B35008BE9C2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CBC6F71DDC1B35008BE9C2 /* main.m */; };
 		11CBC6FB1DDC1B35008BE9C2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CBC6FA1DDC1B35008BE9C2 /* AppDelegate.m */; };
 		11CBC7031DDC1B35008BE9C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11CBC7021DDC1B35008BE9C2 /* Assets.xcassets */; };
@@ -56,16 +54,8 @@
 		11BFC2B31DE771BE009BC9A3 /* CATransaction+Extend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CATransaction+Extend.m"; sourceTree = "<group>"; };
 		11BFC2B51DE7774D009BC9A3 /* TAAnimationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAnimationManager.h; sourceTree = "<group>"; };
 		11BFC2B61DE7774D009BC9A3 /* TAAnimationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAAnimationManager.m; sourceTree = "<group>"; };
-		11BFC2CB1DE7D51C009BC9A3 /* TANetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TANetworkManager.h; sourceTree = "<group>"; };
-		11BFC2CC1DE7D51C009BC9A3 /* TANetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TANetworkManager.m; sourceTree = "<group>"; };
 		11BFC2CF1DE7D556009BC9A3 /* TAStoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAStoreManager.h; sourceTree = "<group>"; };
 		11BFC2D01DE7D556009BC9A3 /* TAStoreManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAStoreManager.m; sourceTree = "<group>"; };
-		11BFC2D31DE7D57A009BC9A3 /* TAParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAParser.h; sourceTree = "<group>"; };
-		11BFC2D41DE7D57A009BC9A3 /* TAParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAParser.m; sourceTree = "<group>"; };
-		11BFC2D61DE7D5A0009BC9A3 /* TANetworkContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TANetworkContext.h; sourceTree = "<group>"; };
-		11BFC2D71DE7D5A0009BC9A3 /* TANetworkContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TANetworkContext.m; sourceTree = "<group>"; };
-		11BFC2D91DE7D8B7009BC9A3 /* TAJSONParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAJSONParser.h; sourceTree = "<group>"; };
-		11BFC2DA1DE7D8B7009BC9A3 /* TAJSONParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAJSONParser.m; sourceTree = "<group>"; };
 		11BFC2DC1DE82AF4009BC9A3 /* TAOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAOperation.h; sourceTree = "<group>"; };
 		11BFC2DD1DE82AF4009BC9A3 /* TAOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAOperation.m; sourceTree = "<group>"; };
 		11BFC2E01DE82B58009BC9A3 /* TAContentOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAContentOperation.h; sourceTree = "<group>"; };
@@ -90,6 +80,10 @@
 		11BFC3001DE86617009BC9A3 /* TATripTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TATripTableViewCell.m; sourceTree = "<group>"; };
 		11BFC3021DE882AB009BC9A3 /* TAThumbnailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAThumbnailView.h; sourceTree = "<group>"; };
 		11BFC3031DE882AB009BC9A3 /* TAThumbnailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAThumbnailView.m; sourceTree = "<group>"; };
+		11BFC3051DE9B049009BC9A3 /* TANetworkContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TANetworkContext.h; sourceTree = "<group>"; };
+		11BFC3061DE9B049009BC9A3 /* TANetworkContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TANetworkContext.m; sourceTree = "<group>"; };
+		11BFC3081DE9B0F7009BC9A3 /* TADeserializeOperatioon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TADeserializeOperatioon.h; sourceTree = "<group>"; };
+		11BFC3091DE9B0F7009BC9A3 /* TADeserializeOperatioon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TADeserializeOperatioon.m; sourceTree = "<group>"; };
 		11CBC6F31DDC1B35008BE9C2 /* TravelApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TravelApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11CBC6F71DDC1B35008BE9C2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		11CBC6F91DDC1B35008BE9C2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -129,40 +123,11 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		11BFC2CA1DE7D4D5009BC9A3 /* Network */ = {
-			isa = PBXGroup;
-			children = (
-				11BFC2CB1DE7D51C009BC9A3 /* TANetworkManager.h */,
-				11BFC2CC1DE7D51C009BC9A3 /* TANetworkManager.m */,
-				11BFC2D61DE7D5A0009BC9A3 /* TANetworkContext.h */,
-				11BFC2D71DE7D5A0009BC9A3 /* TANetworkContext.m */,
-			);
-			name = Network;
-			sourceTree = "<group>";
-		};
-		11BFC2CE1DE7D53E009BC9A3 /* Store */ = {
-			isa = PBXGroup;
-			children = (
-				11BFC2CF1DE7D556009BC9A3 /* TAStoreManager.h */,
-				11BFC2D01DE7D556009BC9A3 /* TAStoreManager.m */,
-			);
-			name = Store;
-			sourceTree = "<group>";
-		};
-		11BFC2D21DE7D564009BC9A3 /* Parser */ = {
-			isa = PBXGroup;
-			children = (
-				11BFC2D31DE7D57A009BC9A3 /* TAParser.h */,
-				11BFC2D41DE7D57A009BC9A3 /* TAParser.m */,
-				11BFC2D91DE7D8B7009BC9A3 /* TAJSONParser.h */,
-				11BFC2DA1DE7D8B7009BC9A3 /* TAJSONParser.m */,
-			);
-			name = Parser;
-			sourceTree = "<group>";
-		};
 		11BFC2DF1DE82AFE009BC9A3 /* OPeration */ = {
 			isa = PBXGroup;
 			children = (
+				11BFC3051DE9B049009BC9A3 /* TANetworkContext.h */,
+				11BFC3061DE9B049009BC9A3 /* TANetworkContext.m */,
 				11BFC2FE1DE84E1E009BC9A3 /* Creator */,
 				11BFC2F71DE84DA9009BC9A3 /* Store */,
 				11BFC2DC1DE82AF4009BC9A3 /* TAOperation.h */,
@@ -201,10 +166,14 @@
 		11BFC2F71DE84DA9009BC9A3 /* Store */ = {
 			isa = PBXGroup;
 			children = (
+				11BFC2CF1DE7D556009BC9A3 /* TAStoreManager.h */,
+				11BFC2D01DE7D556009BC9A3 /* TAStoreManager.m */,
 				11BFC2F81DE84DCB009BC9A3 /* TAStoreOperation.h */,
 				11BFC2F91DE84DCB009BC9A3 /* TAStoreOperation.m */,
 				11BFC2FB1DE84E06009BC9A3 /* TASerializerOperation.h */,
 				11BFC2FC1DE84E06009BC9A3 /* TASerializerOperation.m */,
+				11BFC3081DE9B0F7009BC9A3 /* TADeserializeOperatioon.h */,
+				11BFC3091DE9B0F7009BC9A3 /* TADeserializeOperatioon.m */,
 			);
 			name = Store;
 			sourceTree = "<group>";
@@ -241,9 +210,6 @@
 			children = (
 				11BFC2F21DE848A2009BC9A3 /* Entity */,
 				11BFC2DF1DE82AFE009BC9A3 /* OPeration */,
-				11BFC2D21DE7D564009BC9A3 /* Parser */,
-				11BFC2CE1DE7D53E009BC9A3 /* Store */,
-				11BFC2CA1DE7D4D5009BC9A3 /* Network */,
 				11CBC6F91DDC1B35008BE9C2 /* AppDelegate.h */,
 				11CBC6FA1DDC1B35008BE9C2 /* AppDelegate.m */,
 				11CBC7021DDC1B35008BE9C2 /* Assets.xcassets */,
@@ -415,12 +381,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11BFC30A1DE9B0F7009BC9A3 /* TADeserializeOperatioon.m in Sources */,
 				11CBC7151DDC3859008BE9C2 /* TATabBarView.m in Sources */,
 				11BFC2A91DE5CE74009BC9A3 /* TATabBarItem.m in Sources */,
 				11CBC70F1DDC3323008BE9C2 /* TATabBarController.m in Sources */,
 				11BFC2F51DE848C2009BC9A3 /* TATravelItem.m in Sources */,
 				11BFC2FA1DE84DCB009BC9A3 /* TAStoreOperation.m in Sources */,
-				11BFC2CD1DE7D51C009BC9A3 /* TANetworkManager.m in Sources */,
 				11BFC2E21DE82B58009BC9A3 /* TAContentOperation.m in Sources */,
 				11CBC6FB1DDC1B35008BE9C2 /* AppDelegate.m in Sources */,
 				11BFC3011DE86617009BC9A3 /* TATripTableViewCell.m in Sources */,
@@ -428,8 +394,6 @@
 				11BFC2EB1DE8363D009BC9A3 /* TAContentOPerationCreator.m in Sources */,
 				11BFC2FD1DE84E06009BC9A3 /* TASerializerOperation.m in Sources */,
 				11BFC3041DE882AB009BC9A3 /* TAThumbnailView.m in Sources */,
-				11BFC2DB1DE7D8B7009BC9A3 /* TAJSONParser.m in Sources */,
-				11BFC2D51DE7D57A009BC9A3 /* TAParser.m in Sources */,
 				11CBC7121DDC3421008BE9C2 /* TATravelTableViewController.m in Sources */,
 				11BFC2B71DE7774D009BC9A3 /* TAAnimationManager.m in Sources */,
 				11BFC2E81DE832E4009BC9A3 /* TANetworkFetchOperation.m in Sources */,
@@ -439,8 +403,8 @@
 				11BFC2F11DE83B89009BC9A3 /* TAJSONParseOperation.m in Sources */,
 				11BFC2DE1DE82AF4009BC9A3 /* TAOperation.m in Sources */,
 				11BFC2A31DE5BCEE009BC9A3 /* UIView+Geometry.m in Sources */,
-				11BFC2D81DE7D5A0009BC9A3 /* TANetworkContext.m in Sources */,
 				11BFC2E51DE82B8F009BC9A3 /* TAThumbnailOPeration.m in Sources */,
+				11BFC3071DE9B04A009BC9A3 /* TANetworkContext.m in Sources */,
 				11BFC2AF1DE71FB4009BC9A3 /* TATabBarCenterItem.m in Sources */,
 				11CBC6F81DDC1B35008BE9C2 /* main.m in Sources */,
 			);

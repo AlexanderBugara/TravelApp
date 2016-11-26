@@ -9,7 +9,4 @@
 #import "TAStoreOperation.h"
 
 @interface TASerializerOperation : TAStoreOperation
-@property (nonatomic, strong) NSArray *trips;
-@property (nonatomic, strong) NSError *error;
-- (instancetype)initWithKey:(NSString *)key;
 @end

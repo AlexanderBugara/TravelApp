@@ -11,6 +11,7 @@
 #import "TANetworkFetchOperation.h"
 #import "TAJSONParseOperation.h"
 #import "TASerializerOperation.h"
+#import "TADeserializeOperatioon.h"
 
 @interface TAContentOPerationCreator ()
 @property (nonatomic, weak) TATravelTableViewController *travelViewController;
@@ -26,8 +27,22 @@
 }
 
 - (void)create {
+  NSMutableArray *operations = [NSMutableArray array];
+  
+  TADeserializeOperatioon *deserializeOperation = [[TADeserializeOperatioon alloc] initWithKey:[self.travelViewController.networkContext.url absoluteString]];
+  
+  NSBlockOperation *adapterDesirilizeOperation = [NSBlockOperation blockOperationWithBlock:^{
+    _travelViewController.trips = deserializeOperation.trips;
+    _travelViewController.error = deserializeOperation.error;
+  }];
+  [adapterDesirilizeOperation addDependency:deserializeOperation];
+  [operations addObject:deserializeOperation];
+  [operations addObject:adapterDesirilizeOperation];
+  
+  
   TANetworkFetchOperation *networkFetchOperation = [[TANetworkFetchOperation alloc]
                                                     initWith:self.travelViewController.networkContext];
+  [networkFetchOperation addDependency:adapterDesirilizeOperation];
   
   TAJSONParseOperation *parserOperation = [[TAJSONParseOperation alloc] init];
   
@@ -37,8 +52,6 @@
     parserOperation.networkData = networkFetchOperation.networkData;
     parserOperation.networkError = networkFetchOperation.networkError;
   }];
-  
-  NSMutableArray *operations = [NSMutableArray array];
   
   [adapterOperation addDependency:networkFetchOperation];
   [parserOperation addDependency:adapterOperation];

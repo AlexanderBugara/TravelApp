@@ -115,9 +115,7 @@
   self.departureArrivalTime.text = [NSString stringWithFormat:@"%@ - %@",travelItem.departure_time, travelItem.arrival_time];
   self.numberOfChanges.text = [NSString stringWithFormat:@"Transfers: %@",travelItem.number_of_stops];
   self.price.text = [NSString stringWithFormat:@"Price: %@ EUR",travelItem.price_in_euros];
-  self.duration.text = [NSString stringWithFormat:@"Direct: %@",travelItem.departure_time];
-  
-  
+  self.duration.text = [NSString stringWithFormat:@"Direct: %@",[travelItem durationString]];
   [self.imageView_ setImageWithURL:[NSURL URLWithString:travelItem.provider_logo] ];
 }
 

@@ -36,7 +36,8 @@
                                               dispatch_async(dispatch_get_main_queue(), ^{
                                                 UIImage *image = [UIImage imageWithData:data];
                                                 [[TAStoreManager sharedManager] addImage:image forhKey:[url absoluteString]];
-                                                [weakSelf setImage:image];
+                                                //[weakSelf setImage:image];
+                                                [weakSelf startAnimatingWithImage:image];
                                                 [weakSelf.indicator stopAnimating];
                                               });
                                             }
@@ -67,5 +68,15 @@
     _urlSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
   }
   return _urlSession;
+}
+
+- (void)startAnimatingWithImage:(UIImage *)image {
+  
+  [UIView transitionWithView:self
+                    duration:0.8f
+                     options:UIViewAnimationOptionTransitionCrossDissolve
+                  animations:^{
+                    self.image = image;
+                  } completion:nil];
 }
 @end

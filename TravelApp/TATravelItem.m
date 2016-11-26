@@ -9,7 +9,22 @@
 #import "TATravelItem.h"
 #import <objc/runtime.h>
 
+@interface TATravelItem ()
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
+@end
+
 @implementation TATravelItem
+
+- (NSDateFormatter *)dateFormatter {
+  if (!_dateFormatter) {
+    _dateFormatter = [[NSDateFormatter alloc] init];
+    //[_dateFormatter setDateFormat:@"HH:mm"];
+    _dateFormatter.timeStyle = NSDateFormatterShortStyle;
+    _dateFormatter.dateFormat = @"k:mm";
+    [_dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+  }
+  return _dateFormatter;
+}
 
 - (instancetype)initWithJSON:(NSDictionary *)json {
   if (self = [super init]) {
@@ -26,7 +41,18 @@
           [self setValue:json[name] forKey:name];
         }
       }];
-    } @catch (NSException *exception) {
+      
+      NSDate *arrival = [self.dateFormatter dateFromString:json[@"arrival_time"]];
+      _arrivalDate = arrival;
+    
+      NSDate *departure = [self.dateFormatter dateFromString:json[@"departure_time"]];
+      _departureDate = departure;
+    
+      NSTimeInterval secondsBetween = [arrival timeIntervalSinceDate:departure];
+      _duration = @(secondsBetween);
+
+    }
+     @catch (NSException *exception) {
       NSLog(@"TATravelItem: inittialise with parsing Exception: %@", [exception description]);
     } @finally {
       
@@ -64,4 +90,11 @@
   }
   return self;
 }
+
+- (NSString *)durationString {
+  NSInteger minutes = ([self.duration integerValue]/ 60) % 60;
+  NSInteger hours = [self.duration integerValue] / 3600;
+  return [NSString stringWithFormat:@"%ld:%ld",(long)hours, (long)minutes];
+}
+
 @end

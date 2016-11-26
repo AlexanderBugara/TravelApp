@@ -10,4 +10,10 @@
 
 @implementation TAStoreOperation
 
+- (instancetype)initWithKey:(NSString *)key {
+  if (self = [super init]) {
+    _key = key;
+  }
+  return self;
+}
 @end
