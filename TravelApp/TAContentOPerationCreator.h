@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-@class TATravelTableViewController;
+@class TATravelViewController;
 
 @interface TAContentOPerationCreator : NSObject
 @property (nonatomic, strong, readonly) NSArray *operations;
 
-- (instancetype)initWithTravelTableViewController:(TATravelTableViewController *)travelViewController;
+- (instancetype)initWithTravelTableViewController:(TATravelViewController *)travelViewController;
 - (void)create;
 @end

@@ -24,11 +24,12 @@ typedef enum {
 - (void)updateInternalStorage:(NSArray *)trips;
 @end
 
-@interface TATravelTableViewController : UITableViewController
+@interface TATravelViewController : UIViewController
 - (instancetype)initWithNetworkContext:(TANetworkContext *)context;
 - (void)setTrips:(NSArray *)trips;
 
 @property (nonatomic, strong, readonly) TANetworkContext *networkContext;
 @property (nonatomic, strong) NSError *error;
 @property (nonatomic, strong) TATravelDataSource *travelDataSource;
+@property (nonatomic, weak) UITableView *tableView;
 @end

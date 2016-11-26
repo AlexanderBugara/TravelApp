@@ -6,7 +6,7 @@
 //  Copyright © 2016 Home. All rights reserved.
 //
 
-#import "TATravelTableViewController.h"
+#import "TATravelViewController.h"
 #import "TAContentOperation.h"
 #import "TAContentOPerationCreator.h"
 #import "TATravelItem.h"
@@ -15,15 +15,22 @@
 
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 
-@interface TATravelTableViewController ()
+@interface TATravelViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong, readwrite) TANetworkContext *networkContext;
 @property (nonatomic, strong, readwrite) NSOperationQueue *operationQueue;
 @end
 
-@implementation TATravelTableViewController
+@implementation TATravelViewController
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+  [self.view addSubview:tableView];
+  self.tableView = tableView;
+  self.tableView.dataSource = self;
+  self.tableView.delegate = self;
+  
+  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sort"] style:UIBarButtonItemStylePlain target:self action:@selector(presentSortView:)];
   
   self.travelDataSource = [TATravelDataSource new];
   
@@ -39,6 +46,10 @@
     [self.operationQueue addOperations:[creator operations] waitUntilFinished:NO];
   }
   
+  
+}
+
+- (void)presentSortView:(id)sender {
   
 }
 

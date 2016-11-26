@@ -7,19 +7,19 @@
 //
 
 #import "TAContentOPerationCreator.h"
-#import "TATravelTableViewController.h"
+#import "TATravelViewController.h"
 #import "TANetworkFetchOperation.h"
 #import "TAJSONParseOperation.h"
 #import "TASerializerOperation.h"
 #import "TADeserializeOperatioon.h"
 
 @interface TAContentOPerationCreator ()
-@property (nonatomic, weak) TATravelTableViewController *travelViewController;
+@property (nonatomic, weak) TATravelViewController *travelViewController;
 @property (nonatomic, strong, readwrite) NSArray *operations;
 @end
 
 @implementation TAContentOPerationCreator
-- (instancetype)initWithTravelTableViewController:(TATravelTableViewController *)travelViewController {
+- (instancetype)initWithTravelTableViewController:(TATravelViewController *)travelViewController {
   if (self = [super init]) {
     _travelViewController = travelViewController;
   }

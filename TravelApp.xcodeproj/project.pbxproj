@@ -34,7 +34,7 @@
 		11CBC7031DDC1B35008BE9C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11CBC7021DDC1B35008BE9C2 /* Assets.xcassets */; };
 		11CBC7061DDC1B35008BE9C2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 11CBC7041DDC1B35008BE9C2 /* LaunchScreen.storyboard */; };
 		11CBC70F1DDC3323008BE9C2 /* TATabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CBC70E1DDC3323008BE9C2 /* TATabBarController.m */; };
-		11CBC7121DDC3421008BE9C2 /* TATravelTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CBC7111DDC3421008BE9C2 /* TATravelTableViewController.m */; };
+		11CBC7121DDC3421008BE9C2 /* TATravelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CBC7111DDC3421008BE9C2 /* TATravelViewController.m */; };
 		11CBC7151DDC3859008BE9C2 /* TATabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CBC7141DDC3859008BE9C2 /* TATabBarView.m */; };
 		C148378862D6899AB7E603FF /* libPods-TravelApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0324BDCDEE45C208E2A63866 /* libPods-TravelApp.a */; };
 /* End PBXBuildFile section */
@@ -93,8 +93,8 @@
 		11CBC7071DDC1B35008BE9C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		11CBC70D1DDC3323008BE9C2 /* TATabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TATabBarController.h; sourceTree = "<group>"; };
 		11CBC70E1DDC3323008BE9C2 /* TATabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TATabBarController.m; sourceTree = "<group>"; };
-		11CBC7101DDC3421008BE9C2 /* TATravelTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TATravelTableViewController.h; sourceTree = "<group>"; };
-		11CBC7111DDC3421008BE9C2 /* TATravelTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TATravelTableViewController.m; sourceTree = "<group>"; };
+		11CBC7101DDC3421008BE9C2 /* TATravelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TATravelViewController.h; sourceTree = "<group>"; };
+		11CBC7111DDC3421008BE9C2 /* TATravelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TATravelViewController.m; sourceTree = "<group>"; };
 		11CBC7131DDC3859008BE9C2 /* TATabBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TATabBarView.h; sourceTree = "<group>"; };
 		11CBC7141DDC3859008BE9C2 /* TATabBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TATabBarView.m; sourceTree = "<group>"; };
 		6665198F48800231C0066360 /* Pods-TravelApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-TravelApp/Pods-TravelApp.release.xcconfig"; sourceTree = "<group>"; };
@@ -218,8 +218,8 @@
 				11CBC6F61DDC1B35008BE9C2 /* Supporting Files */,
 				11CBC70D1DDC3323008BE9C2 /* TATabBarController.h */,
 				11CBC70E1DDC3323008BE9C2 /* TATabBarController.m */,
-				11CBC7101DDC3421008BE9C2 /* TATravelTableViewController.h */,
-				11CBC7111DDC3421008BE9C2 /* TATravelTableViewController.m */,
+				11CBC7101DDC3421008BE9C2 /* TATravelViewController.h */,
+				11CBC7111DDC3421008BE9C2 /* TATravelViewController.m */,
 				11CBC7131DDC3859008BE9C2 /* TATabBarView.h */,
 				11CBC7141DDC3859008BE9C2 /* TATabBarView.m */,
 				11BFC2A11DE5BCEE009BC9A3 /* UIView+Geometry.h */,
@@ -394,7 +394,7 @@
 				11BFC2EB1DE8363D009BC9A3 /* TAContentOPerationCreator.m in Sources */,
 				11BFC2FD1DE84E06009BC9A3 /* TASerializerOperation.m in Sources */,
 				11BFC3041DE882AB009BC9A3 /* TAThumbnailView.m in Sources */,
-				11CBC7121DDC3421008BE9C2 /* TATravelTableViewController.m in Sources */,
+				11CBC7121DDC3421008BE9C2 /* TATravelViewController.m in Sources */,
 				11BFC2B71DE7774D009BC9A3 /* TAAnimationManager.m in Sources */,
 				11BFC2E81DE832E4009BC9A3 /* TANetworkFetchOperation.m in Sources */,
 				11BFC2A61DE5CCF7009BC9A3 /* TAConstants.m in Sources */,

@@ -12,7 +12,7 @@
 #import "TATabBarItem.h"
 #import "TATabBarCenterItem.h"
 #import "TANetworkContext.h"
-#import "TATravelTableViewController.h"
+#import "TATravelViewController.h"
 
 @interface TATabBarConfiguration ()
 @property (nonatomic, strong, readwrite) NSArray *items;
@@ -144,7 +144,7 @@
                                                   title:(NSString *)title {
   
   UINavigationController *navigationController = [UINavigationController new];
-  TATravelTableViewController *first = [[TATravelTableViewController alloc] initWithNetworkContext:context];
+  TATravelViewController *first = [[TATravelViewController alloc] initWithNetworkContext:context];
   first.navigationItem.title = title;
   navigationController.viewControllers = @[first];
   return navigationController;
