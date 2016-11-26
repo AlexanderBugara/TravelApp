@@ -83,6 +83,7 @@
   
   if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
     TAThumbnailView *imageView = [[TAThumbnailView alloc] initWithFrame:CGRectZero];
+    [imageView setBackgroundColor:[UIColor clearColor]];
     [self.contentView addSubview:imageView];
     _imageView_ = imageView;
     

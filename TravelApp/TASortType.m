@@ -29,10 +29,6 @@
   return @"";
 }
 
-- (void)setIndexForSortTypeControl:(UISegmentedControl *)segmntedControl {
-  [segmntedControl setSelectedSegmentIndex:[self index]];
-}
-
 - (NSInteger)index {
   //should be overriden
   return 0;

@@ -51,7 +51,7 @@
 
 - (void)presentSortView:(id)sender {
   UISegmentedControl *segmntedControl = [[UISegmentedControl alloc] initWithItems:@[@"Sort: departure",@"Sort: arrival",@"Sort: duration"]];
-  [self.travelDataSource.sortType setIndexForSortTypeControl:segmntedControl];
+  [self.travelDataSource synchronizeSegmentedControl:segmntedControl];
   [self.navigationController.navigationBar addSubview:segmntedControl];
   [segmntedControl addTarget:self.travelDataSource action:@selector(sortSegmntedControlAction:) forControlEvents:UIControlEventValueChanged];
 }

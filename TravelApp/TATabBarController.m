@@ -22,7 +22,7 @@
 
 - (instancetype)init {
   if (self = [super init]) {
-    _items = [self itemsFromFileNames:@[@"plain",@"train",@"bus",@"sort"]];
+    _items = [self itemsFromFileNames:@[@"plain",@"train",@"bus"]];
     [self setupCenterItem];
   }
   return self;

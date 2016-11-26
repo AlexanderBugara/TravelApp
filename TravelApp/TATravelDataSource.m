@@ -103,4 +103,7 @@
   return @[self.departureType, self.arrivalType, self.durationType];
 }
 
+- (void)synchronizeSegmentedControl:(UISegmentedControl *)segmntedControl {
+  [segmntedControl setSelectedSegmentIndex:[self.sortType index]];
+}
 @end

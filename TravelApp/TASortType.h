@@ -12,7 +12,6 @@
 @interface TASortType: NSObject
 @property (nonatomic, strong, readonly) NSArray *sortedTrips;
 - (void)setTrips:(NSArray *)trips;
-- (void)setIndexForSortTypeControl:(UISegmentedControl *)segmntedControl;
 - (NSInteger)index;
 @end
 

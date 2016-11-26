@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class TATravelItem, TASortType;
+@class TATravelItem, TASortType, UISegmentedControl;
 
 @interface TATravelDataSource : NSObject
 @property (nonatomic, strong, readonly) NSArray *trips;
@@ -18,4 +18,5 @@
 - (void)updateInternalStorage:(NSArray *)trips;
 - (TASortType *)sortType;
 - (void)sortSegmntedControlAction:(id)sender;
+- (void)synchronizeSegmentedControl:(UISegmentedControl *)segmntedControl;
 @end
