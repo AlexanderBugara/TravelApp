@@ -18,7 +18,6 @@
 - (NSDateFormatter *)dateFormatter {
   if (!_dateFormatter) {
     _dateFormatter = [[NSDateFormatter alloc] init];
-    //[_dateFormatter setDateFormat:@"HH:mm"];
     _dateFormatter.timeStyle = NSDateFormatterShortStyle;
     _dateFormatter.dateFormat = @"k:mm";
     [_dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];

@@ -50,7 +50,10 @@
 }
 
 - (void)presentSortView:(id)sender {
-  
+  UISegmentedControl *segmntedControl = [[UISegmentedControl alloc] initWithItems:@[@"Sort: departure",@"Sort: arrival",@"Sort: duration"]];
+  [self.travelDataSource.sortType setIndexForSortTypeControl:segmntedControl];
+  [self.navigationController.navigationBar addSubview:segmntedControl];
+  [segmntedControl addTarget:self.travelDataSource action:@selector(sortSegmntedControlAction:) forControlEvents:UIControlEventValueChanged];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -124,67 +127,59 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  
-  UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-  UIView *contentView = cell.contentView;
-  
-  CGAffineTransform translate = CGAffineTransformMakeTranslation(contentView.x_,contentView.y_ - contentView.height_ * 0.25);
-  
-  CGAffineTransform scale = CGAffineTransformMakeScale(0.6, 0.6);
-  CGAffineTransform transform =  CGAffineTransformConcat(translate, scale);
-  transform = CGAffineTransformRotate(transform, DEGREES_TO_RADIANS(-10));
-  
-  UIView *screenShotView = [contentView snapshotViewAfterScreenUpdates:YES];
-  [self.view addSubview:screenShotView];
-/*
- UIViewAnimationOptionCurveEaseInOut            = 0 << 16, // default
- UIViewAnimationOptionCurveEaseIn               = 1 << 16,
- UIViewAnimationOptionCurveEaseOut              = 2 << 16,
- UIViewAnimationOptionCurveLinear
- */
-  [UIView animateWithDuration:2.0
-                        delay:0.0
-                      options:UIViewAnimationOptionCurveEaseOut
-                   animations:^{
-                     screenShotView.transform = transform;
-                   }completion:^(BOOL finished){
-                     // do something if needed
-                   }];
 }
 
 @end
 
 
 @interface TATravelDataSource ()
-@property (nonatomic, strong) NSArray *sortedByDeparture;
-@property (nonatomic, strong) NSArray *sortedByArrival;
-@property (nonatomic, strong) NSArray *sortedByDuration;
-@property (assign, nonatomic) SortType sortType;
+@property (strong, nonatomic) TASortType *sortType;
+@property (strong, nonatomic) TAByDeparture *departureType;
+@property (strong, nonatomic) TAByArrival *arrivalType;
+@property (strong, nonatomic) TAByDuration *durationType;
 @end
 @implementation TATravelDataSource
 
+
+- (TAByDeparture *)departureType {
+  if (!_departureType) {
+    _departureType = [TAByDeparture new];
+  }
+  return _departureType;
+}
+
+- (TAByArrival *)arrivalType {
+  if (!_arrivalType) {
+    _arrivalType = [TAByArrival new];
+  }
+  return _arrivalType;
+}
+
+- (TAByDuration *)durationType {
+  if (!_durationType) {
+    _durationType = [TAByDuration new];
+  }
+  return _durationType;
+}
+
+
+
 - (instancetype)init {
   if (self = [super init]) {
-    _sortType = ByDeparture;
+    _sortType = [self departureType];
+    
   }
   return self;
 }
 
 
-- (NSArray *)sortTripsWithDescriptor:(NSSortDescriptor *)sortDescriptor trips:(NSArray *)trips {
-  return [trips sortedArrayUsingDescriptors:@[sortDescriptor]];
-}
-
-- (NSSortDescriptor *)descriptorWithKey:(NSString *)sortDescriptorKey {
-  return [NSSortDescriptor sortDescriptorWithKey:sortDescriptorKey ascending:YES];
-}
 
 - (void)updateInternalStorage:(NSArray *)trips {
-  self.sortedByArrival = [self sortTripsWithDescriptor:[self descriptorWithKey:@"arrivalDate"] trips:trips];
-  self.sortedByDuration = [self sortTripsWithDescriptor:[self descriptorWithKey:@"duration"] trips:trips];
-  self.sortedByDeparture = [self sortTripsWithDescriptor:[self descriptorWithKey:@"departureDate"] trips:trips];
+  [self.departureType setTrips:trips];
+  [self.arrivalType setTrips:trips];
+  [self.durationType setTrips:trips];
+  
   [self willChangeValueForKey:@"trips"];
-  _trips = [self switchedTrips];
   [self didChangeValueForKey:@"trips"];
 }
 
@@ -199,27 +194,100 @@
   return nil;
 }
 
-- (NSArray *)switchedTrips {
-  NSArray *result;
-  switch (self.sortType) {
-    case ByArrival:
-      result = self.sortedByArrival;
-      break;
-    case ByDeparture:
-      result = self.sortedByDeparture;
-      break;
-    case ByDuration:
-      result = self.sortedByDuration;
-      break;
-    default:
-      break;
-  }
-  return result;
+
+
+- (void)switchToSortType:(TASortType *)sortType {
+  [self willChangeValueForKey:@"trips"];
+  self.sortType = sortType;
+  [self didChangeValueForKey:@"trips"];
 }
 
-- (void)switchToSortType:(SortType)sortType {
-  self.sortType = sortType;
-  [self updateInternalStorage:[self switchedTrips]];
+- (NSArray *)trips {
+  return self.sortType.sortedTrips;
+}
+
+- (TASortType *)sortType {
+  return _sortType;
+}
+
+- (void)sortSegmntedControlAction:(id)sender {
+  if ([sender isKindOfClass:[UISegmentedControl class]]) {
+    for (TASortType *sortType in [self allTypesObjects]) {
+      if ([sortType index] == [(UISegmentedControl *)sender selectedSegmentIndex]) {
+        [self switchToSortType:sortType];
+        break;
+      }
+    }
+    
+  }
+}
+
+- (NSArray *)allTypesObjects {
+  return @[self.departureType, self.arrivalType, self.durationType];
 }
 
 @end
+
+
+@implementation TASortType: NSObject
+
+- (void)setTrips:(NSArray *)trips {
+  if (_sortedTrips != trips) {
+    _sortedTrips = [self sortTripsWithDescriptor:[self descriptorWithKey:[self sortKey]] trips:trips];
+  }
+}
+
+- (NSArray *)sortTripsWithDescriptor:(NSSortDescriptor *)sortDescriptor trips:(NSArray *)trips {
+  return [trips sortedArrayUsingDescriptors:@[sortDescriptor]];
+}
+
+- (NSSortDescriptor *)descriptorWithKey:(NSString *)sortDescriptorKey {
+  return [NSSortDescriptor sortDescriptorWithKey:sortDescriptorKey ascending:YES];
+}
+
+- (NSString *)sortKey {
+  //should be overriden
+  return @"";
+}
+
+- (void)setIndexForSortTypeControl:(UISegmentedControl *)segmntedControl {
+  [segmntedControl setSelectedSegmentIndex:[self index]];
+}
+
+- (NSInteger)index {
+  //should be overriden
+  return 0;
+}
+
+@end
+
+
+@implementation TAByArrival: TASortType
+- (NSString *)sortKey {
+  return @"arrivalDate";
+}
+
+- (NSInteger)index {
+  return 1;
+}
+@end
+
+@implementation TAByDeparture: TASortType
+- (NSString *)sortKey {
+  return @"departureDate";
+}
+
+- (NSInteger)index {
+  return 0;
+}
+@end
+
+@implementation TAByDuration: TASortType
+- (NSString *)sortKey {
+  return @"duration";
+}
+- (NSInteger)index {
+  return 2;
+}
+@end
+

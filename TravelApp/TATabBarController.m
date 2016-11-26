@@ -122,7 +122,7 @@
 
 - (void)setup {
   
-  NSArray *tittles = @[@"Flights", @"Trains", @"Buses", @"Sort"];
+  NSArray *tittles = @[@"Flights", @"Trains", @"Buses"];
   
   NSArray *networkContexts = @[[TANetworkContext flights],[TANetworkContext trains],[TANetworkContext buses]];
   NSMutableArray *tabBarControllerContent = [NSMutableArray array];

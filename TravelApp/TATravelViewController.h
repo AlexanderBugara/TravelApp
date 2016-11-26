@@ -10,23 +10,39 @@
 
 @class TANetworkContext, TATravelItem;
 
-typedef enum {
-  ByArrival,
-  ByDeparture,
-  ByDuration
-} SortType;
+@interface TASortType: NSObject
+@property (nonatomic, strong, readonly) NSArray *sortedTrips;
+- (void)setTrips:(NSArray *)trips;
+- (void)setIndexForSortTypeControl:(UISegmentedControl *)segmntedControl;
+- (NSInteger)index;
+@end
+
+@interface TAByArrival: TASortType
+@end
+
+@interface TAByDeparture: TASortType
+@end
+
+@interface TAByDuration: TASortType
+@end
+
+
+
 
 @interface TATravelDataSource : NSObject
 @property (nonatomic, strong, readonly) NSArray *trips;
 - (NSInteger)count;
 - (TATravelItem *)travelItemAtIndex:(NSInteger)index;
-- (void)switchToSortType:(SortType)sortType;
+- (void)switchToSortType:(TASortType *)sortType;
 - (void)updateInternalStorage:(NSArray *)trips;
+- (TASortType *)sortType;
+- (void)sortSegmntedControlAction:(id)sender;
 @end
 
 @interface TATravelViewController : UIViewController
 - (instancetype)initWithNetworkContext:(TANetworkContext *)context;
 - (void)setTrips:(NSArray *)trips;
+
 
 @property (nonatomic, strong, readonly) TANetworkContext *networkContext;
 @property (nonatomic, strong) NSError *error;
