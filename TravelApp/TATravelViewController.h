@@ -8,36 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@class TANetworkContext, TATravelItem;
-
-@interface TASortType: NSObject
-@property (nonatomic, strong, readonly) NSArray *sortedTrips;
-- (void)setTrips:(NSArray *)trips;
-- (void)setIndexForSortTypeControl:(UISegmentedControl *)segmntedControl;
-- (NSInteger)index;
-@end
-
-@interface TAByArrival: TASortType
-@end
-
-@interface TAByDeparture: TASortType
-@end
-
-@interface TAByDuration: TASortType
-@end
+@class TANetworkContext, TATravelItem, TASortType, TATravelDataSource;
 
 
-
-
-@interface TATravelDataSource : NSObject
-@property (nonatomic, strong, readonly) NSArray *trips;
-- (NSInteger)count;
-- (TATravelItem *)travelItemAtIndex:(NSInteger)index;
-- (void)switchToSortType:(TASortType *)sortType;
-- (void)updateInternalStorage:(NSArray *)trips;
-- (TASortType *)sortType;
-- (void)sortSegmntedControlAction:(id)sender;
-@end
 
 @interface TATravelViewController : UIViewController
 - (instancetype)initWithNetworkContext:(TANetworkContext *)context;

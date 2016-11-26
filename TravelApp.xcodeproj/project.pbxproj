@@ -36,6 +36,8 @@
 		11CBC70F1DDC3323008BE9C2 /* TATabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CBC70E1DDC3323008BE9C2 /* TATabBarController.m */; };
 		11CBC7121DDC3421008BE9C2 /* TATravelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CBC7111DDC3421008BE9C2 /* TATravelViewController.m */; };
 		11CBC7151DDC3859008BE9C2 /* TATabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CBC7141DDC3859008BE9C2 /* TATabBarView.m */; };
+		11F377711DEA094800E1FC76 /* TASortType.m in Sources */ = {isa = PBXBuildFile; fileRef = 11F377701DEA094800E1FC76 /* TASortType.m */; };
+		11F377741DEA09EB00E1FC76 /* TATravelDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 11F377731DEA09EB00E1FC76 /* TATravelDataSource.m */; };
 		C148378862D6899AB7E603FF /* libPods-TravelApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0324BDCDEE45C208E2A63866 /* libPods-TravelApp.a */; };
 /* End PBXBuildFile section */
 
@@ -97,6 +99,10 @@
 		11CBC7111DDC3421008BE9C2 /* TATravelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TATravelViewController.m; sourceTree = "<group>"; };
 		11CBC7131DDC3859008BE9C2 /* TATabBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TATabBarView.h; sourceTree = "<group>"; };
 		11CBC7141DDC3859008BE9C2 /* TATabBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TATabBarView.m; sourceTree = "<group>"; };
+		11F3776F1DEA094800E1FC76 /* TASortType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TASortType.h; sourceTree = "<group>"; };
+		11F377701DEA094800E1FC76 /* TASortType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TASortType.m; sourceTree = "<group>"; };
+		11F377721DEA09EB00E1FC76 /* TATravelDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TATravelDataSource.h; sourceTree = "<group>"; };
+		11F377731DEA09EB00E1FC76 /* TATravelDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TATravelDataSource.m; sourceTree = "<group>"; };
 		6665198F48800231C0066360 /* Pods-TravelApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-TravelApp/Pods-TravelApp.release.xcconfig"; sourceTree = "<group>"; };
 		D1C9B9D34BC50B9BDA5547C1 /* Pods-TravelApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TravelApp/Pods-TravelApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -238,6 +244,10 @@
 				11BFC3001DE86617009BC9A3 /* TATripTableViewCell.m */,
 				11BFC3021DE882AB009BC9A3 /* TAThumbnailView.h */,
 				11BFC3031DE882AB009BC9A3 /* TAThumbnailView.m */,
+				11F3776F1DEA094800E1FC76 /* TASortType.h */,
+				11F377701DEA094800E1FC76 /* TASortType.m */,
+				11F377721DEA09EB00E1FC76 /* TATravelDataSource.h */,
+				11F377731DEA09EB00E1FC76 /* TATravelDataSource.m */,
 			);
 			path = TravelApp;
 			sourceTree = "<group>";
@@ -402,9 +412,11 @@
 				11BFC2D11DE7D556009BC9A3 /* TAStoreManager.m in Sources */,
 				11BFC2F11DE83B89009BC9A3 /* TAJSONParseOperation.m in Sources */,
 				11BFC2DE1DE82AF4009BC9A3 /* TAOperation.m in Sources */,
+				11F377711DEA094800E1FC76 /* TASortType.m in Sources */,
 				11BFC2A31DE5BCEE009BC9A3 /* UIView+Geometry.m in Sources */,
 				11BFC2E51DE82B8F009BC9A3 /* TAThumbnailOPeration.m in Sources */,
 				11BFC3071DE9B04A009BC9A3 /* TANetworkContext.m in Sources */,
+				11F377741DEA09EB00E1FC76 /* TATravelDataSource.m in Sources */,
 				11BFC2AF1DE71FB4009BC9A3 /* TATabBarCenterItem.m in Sources */,
 				11CBC6F81DDC1B35008BE9C2 /* main.m in Sources */,
 			);
