@@ -89,7 +89,7 @@
 
 - (void)sortSegmntedControlAction:(id)sender {
   if ([sender isKindOfClass:[UISegmentedControl class]]) {
-    for (TASortType *sortType in [self allTypesObjects]) {
+    for (TASortType *sortType in [self allSortedTypesObjects]) {
       if ([sortType index] == [(UISegmentedControl *)sender selectedSegmentIndex]) {
         [self switchToSortType:sortType];
         break;
@@ -99,11 +99,15 @@
   }
 }
 
-- (NSArray *)allTypesObjects {
+- (NSArray *)allSortedTypesObjects {
   return @[self.departureType, self.arrivalType, self.durationType];
 }
 
 - (void)synchronizeSegmentedControl:(UISegmentedControl *)segmntedControl {
   [segmntedControl setSelectedSegmentIndex:[self.sortType index]];
+}
+
+- (NSArray *)segmentedControlItems {
+  return [[self allSortedTypesObjects] valueForKeyPath:@"title"];
 }
 @end

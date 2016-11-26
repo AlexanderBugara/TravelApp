@@ -19,4 +19,5 @@
 - (TASortType *)sortType;
 - (void)sortSegmntedControlAction:(id)sender;
 - (void)synchronizeSegmentedControl:(UISegmentedControl *)segmntedControl;
+- (NSArray *)segmentedControlItems;
 @end

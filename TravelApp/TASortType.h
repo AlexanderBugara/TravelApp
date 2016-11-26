@@ -13,6 +13,7 @@
 @property (nonatomic, strong, readonly) NSArray *sortedTrips;
 - (void)setTrips:(NSArray *)trips;
 - (NSInteger)index;
+- (NSString *)title;
 @end
 
 @interface TAByArrival: TASortType

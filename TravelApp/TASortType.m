@@ -34,6 +34,10 @@
   return 0;
 }
 
+- (NSString *)title {
+  //should be overriden
+  return @"";
+}
 @end
 
 
@@ -45,6 +49,10 @@
 - (NSInteger)index {
   return 1;
 }
+
+- (NSString *)title {
+  return @"Sort: arrival";
+}
 @end
 
 @implementation TAByDeparture: TASortType
@@ -55,6 +63,10 @@
 - (NSInteger)index {
   return 0;
 }
+
+- (NSString *)title {
+  return @"Sort: departure";
+}
 @end
 
 @implementation TAByDuration: TASortType
@@ -63,6 +75,10 @@
 }
 - (NSInteger)index {
   return 2;
+}
+
+- (NSString *)title {
+  return @"Sort: duration";
 }
 @end
 
