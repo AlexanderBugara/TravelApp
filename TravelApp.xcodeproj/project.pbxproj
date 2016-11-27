@@ -38,6 +38,8 @@
 		11CBC7151DDC3859008BE9C2 /* TATabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 11CBC7141DDC3859008BE9C2 /* TATabBarView.m */; };
 		11F377711DEA094800E1FC76 /* TASortType.m in Sources */ = {isa = PBXBuildFile; fileRef = 11F377701DEA094800E1FC76 /* TASortType.m */; };
 		11F377741DEA09EB00E1FC76 /* TATravelDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 11F377731DEA09EB00E1FC76 /* TATravelDataSource.m */; };
+		11F3779F1DEB0B1D00E1FC76 /* TAOfferViewContoller.m in Sources */ = {isa = PBXBuildFile; fileRef = 11F3779E1DEB0B1D00E1FC76 /* TAOfferViewContoller.m */; };
+		11F377A21DEB265B00E1FC76 /* TATransitionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 11F377A11DEB265B00E1FC76 /* TATransitionDelegate.m */; };
 		C148378862D6899AB7E603FF /* libPods-TravelApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0324BDCDEE45C208E2A63866 /* libPods-TravelApp.a */; };
 /* End PBXBuildFile section */
 
@@ -103,6 +105,10 @@
 		11F377701DEA094800E1FC76 /* TASortType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TASortType.m; sourceTree = "<group>"; };
 		11F377721DEA09EB00E1FC76 /* TATravelDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TATravelDataSource.h; sourceTree = "<group>"; };
 		11F377731DEA09EB00E1FC76 /* TATravelDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TATravelDataSource.m; sourceTree = "<group>"; };
+		11F3779D1DEB0B1D00E1FC76 /* TAOfferViewContoller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAOfferViewContoller.h; sourceTree = "<group>"; };
+		11F3779E1DEB0B1D00E1FC76 /* TAOfferViewContoller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAOfferViewContoller.m; sourceTree = "<group>"; };
+		11F377A01DEB265B00E1FC76 /* TATransitionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TATransitionDelegate.h; sourceTree = "<group>"; };
+		11F377A11DEB265B00E1FC76 /* TATransitionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TATransitionDelegate.m; sourceTree = "<group>"; };
 		6665198F48800231C0066360 /* Pods-TravelApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-TravelApp/Pods-TravelApp.release.xcconfig"; sourceTree = "<group>"; };
 		D1C9B9D34BC50B9BDA5547C1 /* Pods-TravelApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TravelApp/Pods-TravelApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -248,6 +254,10 @@
 				11F377701DEA094800E1FC76 /* TASortType.m */,
 				11F377721DEA09EB00E1FC76 /* TATravelDataSource.h */,
 				11F377731DEA09EB00E1FC76 /* TATravelDataSource.m */,
+				11F3779D1DEB0B1D00E1FC76 /* TAOfferViewContoller.h */,
+				11F3779E1DEB0B1D00E1FC76 /* TAOfferViewContoller.m */,
+				11F377A01DEB265B00E1FC76 /* TATransitionDelegate.h */,
+				11F377A11DEB265B00E1FC76 /* TATransitionDelegate.m */,
 			);
 			path = TravelApp;
 			sourceTree = "<group>";
@@ -304,6 +314,7 @@
 					11CBC6F21DDC1B35008BE9C2 = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = 5ZFH6ZJS9N;
+						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -398,6 +409,7 @@
 				11BFC2F51DE848C2009BC9A3 /* TATravelItem.m in Sources */,
 				11BFC2FA1DE84DCB009BC9A3 /* TAStoreOperation.m in Sources */,
 				11BFC2E21DE82B58009BC9A3 /* TAContentOperation.m in Sources */,
+				11F3779F1DEB0B1D00E1FC76 /* TAOfferViewContoller.m in Sources */,
 				11CBC6FB1DDC1B35008BE9C2 /* AppDelegate.m in Sources */,
 				11BFC3011DE86617009BC9A3 /* TATripTableViewCell.m in Sources */,
 				11BFC2EE1DE83B67009BC9A3 /* TAParseOperation.m in Sources */,
@@ -416,6 +428,7 @@
 				11BFC2A31DE5BCEE009BC9A3 /* UIView+Geometry.m in Sources */,
 				11BFC2E51DE82B8F009BC9A3 /* TAThumbnailOPeration.m in Sources */,
 				11BFC3071DE9B04A009BC9A3 /* TANetworkContext.m in Sources */,
+				11F377A21DEB265B00E1FC76 /* TATransitionDelegate.m in Sources */,
 				11F377741DEA09EB00E1FC76 /* TATravelDataSource.m in Sources */,
 				11BFC2AF1DE71FB4009BC9A3 /* TATabBarCenterItem.m in Sources */,
 				11CBC6F81DDC1B35008BE9C2 /* main.m in Sources */,
@@ -530,12 +543,18 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D1C9B9D34BC50B9BDA5547C1 /* Pods-TravelApp.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 5ZFH6ZJS9N;
 				INFOPLIST_FILE = TravelApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.exs.application.TravelApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "TravelApp/TravelApp-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -543,12 +562,17 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6665198F48800231C0066360 /* Pods-TravelApp.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 5ZFH6ZJS9N;
 				INFOPLIST_FILE = TravelApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.exs.application.TravelApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "TravelApp/TravelApp-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

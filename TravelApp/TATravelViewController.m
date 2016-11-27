@@ -15,6 +15,8 @@
 #import "TASortType.h"
 #import "TATravelDataSource.h"
 #import "Masonry.h"
+#import "TAOfferViewContoller.h"
+#import "TATransitionDelegate.h"
 
 @interface TATravelViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong, readwrite) TANetworkContext *networkContext;
@@ -44,11 +46,9 @@
   [self.tableView registerClass:[TATripTableViewCell class] forCellReuseIdentifier:@"tripCell"];
   [self.travelDataSource addObserver:self forKeyPath:@"trips" options:NSKeyValueObservingOptionNew context:nil];
   
-  if (self.networkContext) {
-    TAContentOPerationCreator *creator = [[TAContentOPerationCreator alloc] initWithTravelTableViewController:self];
-    [creator create];
-    [self.operationQueue addOperations:[creator operations] waitUntilFinished:NO];
-  }
+  TAContentOPerationCreator *creator = [[TAContentOPerationCreator alloc] initWithTravelTableViewController:self];
+  [creator create];
+  [self.operationQueue addOperations:[creator operations] waitUntilFinished:NO];
 }
 
 
@@ -189,7 +189,12 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  TAOfferViewContoller *offerViewController = [[TAOfferViewContoller alloc] init];
+  [self presentViewController:offerViewController animated:YES completion:nil];
+  [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
+
+
 
 @end
 
