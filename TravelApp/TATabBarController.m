@@ -9,57 +9,9 @@
 #import "TATabBarController.h"
 #import "TATabBarView.h"
 #import "UIView+Geometry.h"
-#import "TATabBarItem.h"
-#import "TATabBarCenterItem.h"
 #import "TANetworkContext.h"
 #import "TATravelViewController.h"
 
-@interface TATabBarConfiguration ()
-@property (nonatomic, strong, readwrite) NSArray *items;
-@end
-
-@implementation TATabBarConfiguration
-
-- (instancetype)init {
-  if (self = [super init]) {
-    _items = [self itemsFromFileNames:@[@"plain",@"train",@"bus"]];
-    [self setupCenterItem];
-  }
-  return self;
-}
-
-- (NSArray *)itemsFromFileNames:(NSArray *)fileNames {
-  NSMutableArray *temp = [NSMutableArray array];
-  for (NSString *fileName in fileNames) {
-    [temp addObject:[[TATabBarItem alloc] initWithIconName:fileName]];
-  }
-  return [temp copy];
-}
-
-- (TATabBarItem *)centerItem {
-  if ([self.items count] == 0) return nil;
-  
-  NSInteger index = [self.items count]/2;
-  return self.items[index];
-}
-
-
-- (void)setupCenterItem {
-  if ([self.items count] > 0) {
-    NSInteger index = [self.items count]/2;
-    NSMutableArray *mutItems = [_items mutableCopy];
-    [mutItems insertObject:[[TATabBarCenterItem alloc] initWithIconName:@"plus"] 
-                   atIndex:index];
-    self.items = [mutItems copy];
-  }
-}
-
-@end
-
-
-@interface TATabBarController ()
-@property (nonatomic, strong) TATabBarConfiguration *configuration;
-@end
 
 @implementation TATabBarController
 
@@ -72,20 +24,11 @@
 - (instancetype)init {
   self = [super init];
   if (self) {
-    [self setupTabBarView];
-    [self setup];
+    [self setupViewControllers];
   }
   return self;
 }
 
-- (instancetype)initWithConfig:(TATabBarConfiguration *)configuration {
-  if (self = [super init]) {
-    _configuration = configuration;
-    [self setupTabBarView];
-    [self setup];
-  }
-  return self;
-}
 
 #pragma mark - View & LifeCycle
 - (void)viewDidLayoutSubviews {
@@ -98,42 +41,38 @@
   }
  
   [self.tabBar addSubview:self.tabBarView];
-  
- // [self.tabBar setOrigin:CGPointMake(0, [self.topLayoutGuide length])];
-  
 }
 
 
-- (void)setupTabBarView {
-  self.tabBarView = [[TATabBarView alloc] initWithController:self
-                                               configuration:[TATabBarViewConfiguration new]];
-}
-
-- (NSArray *)items:(TATabBarView *)tabBarView {
-  return self.configuration.items;
+- (TATabBarView *)tabBarView {
+  if (!_tabBarView) {
+    _tabBarView = [[TATabBarView alloc] initWithController:self];
+    _tabBarView.delegate = self;
+  }
+  return _tabBarView;
 }
 
 - (void)tabBarView:(TATabBarView *)tabBarView
      didTapAtIndex:(NSInteger)index {
-  
-  
   self.selectedIndex = index;
 }
 
-- (void)setup {
-  
-  NSArray *tittles = @[@"Flights", @"Trains", @"Buses"];
+- (NSArray *)titles {
+  return @[@"Flights", @"Trains", @"Buses"];
+}
+
+- (void)setupViewControllers {
   
   NSArray *networkContexts = @[[TANetworkContext flights],[TANetworkContext trains],[TANetworkContext buses]];
   NSMutableArray *tabBarControllerContent = [NSMutableArray array];
   
-  for (int i = 0; i < [tittles count]; i++) {
+  for (int i = 0; i < [[self titles] count]; i++) {
     
     TANetworkContext *context = nil;
     if (i < [networkContexts count])
       context = networkContexts[i];
     
-    UINavigationController *navigationController = [self tabBarControllerWithContext:context title:tittles[i]];
+    UINavigationController *navigationController = [self tabBarControllerWithContext:context index:i];
     [tabBarControllerContent addObject:navigationController];
   }
   
@@ -141,16 +80,13 @@
 }
 
 - (UINavigationController *)tabBarControllerWithContext:(TANetworkContext *)context
-                                                  title:(NSString *)title {
+                                                  index:(NSInteger)index {
   
   UINavigationController *navigationController = [UINavigationController new];
   TATravelViewController *first = [[TATravelViewController alloc] initWithNetworkContext:context];
-  first.navigationItem.title = title;
+  first.navigationItem.title = [[self titles] objectAtIndex:index];
   navigationController.viewControllers = @[first];
   return navigationController;
   
 }
-
-
-
 @end

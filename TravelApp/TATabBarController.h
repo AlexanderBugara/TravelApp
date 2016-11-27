@@ -9,14 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "TATabBarView.h"
 
-@interface TATabBarConfiguration : NSObject
-@property (nonatomic, strong, readonly) NSArray *items;
-@property (nonatomic, strong, readonly) TATabBarItem *centerItem;
-@end
-
-
-@interface TATabBarController : UITabBarController<TATabBarDelegate, TATabBarDataSource>
+@interface TATabBarController : UITabBarController<TATabBarDelegate>
 @property (nonatomic, strong) TATabBarView *tabBarView;
-- (instancetype)initWithConfig:(TATabBarConfiguration *)configuration;
-- (void)setup;
+- (NSArray *)titles;
 @end

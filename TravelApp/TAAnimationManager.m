@@ -9,6 +9,10 @@
 #import "TAAnimationManager.h"
 
 
+CFTimeInterval const kAnimationDuration = 1.0;
+
+CGFloat const kDegreeToRadiansRatio = M_PI / 180.f;
+
 typedef struct {
   CFTimeInterval beginTime;
   CFTimeInterval duration;
@@ -18,85 +22,93 @@ typedef struct {
   double velocity;
 } TAAnimationParameters;
 
-
 typedef struct {
   TAAnimationParameters rotation;
   TAAnimationParameters bounce;
-} TACenterButtonAnimationsParameters;
+} TAPlusButtonAnimationsParameters;
 
-CFTimeInterval const kExpandAnimationDuration = 1.0;
-CGFloat const kDegreeToRadiansRatio = M_PI / 180.f;
-
-TACenterButtonAnimationsParameters const kCenterButtonAnimationParameters = (TACenterButtonAnimationsParameters) {
+TAPlusButtonAnimationsParameters const kPlusButtonExpandAnimationParameters = (TAPlusButtonAnimationsParameters) {
   .rotation = (TAAnimationParameters) {
-    .duration = kExpandAnimationDuration / 4.0,
+    .duration = kAnimationDuration / 4.0,
+    .fromValue = 0.0,
+    .toValue = M_PI * 2.0 + 45.0 * kDegreeToRadiansRatio
+  },
+  .bounce = (TAAnimationParameters) {
+    .beginTime = kAnimationDuration / 4.0,
+    .fromValue = 45.0 * kDegreeToRadiansRatio + M_PI / 8.0,
+    .toValue = 45.0 * kDegreeToRadiansRatio
+  }
+};
+
+TAAnimationParameters const kBounceAnimationParameters = (TAAnimationParameters) {
+  .duration = kAnimationDuration * 2.0 / 3.0,
+  .damping = 0.5,
+  .velocity = 3.0
+};
+
+
+TAPlusButtonAnimationsParameters const kPlusButtonCollapseAnimationParameters = (TAPlusButtonAnimationsParameters) {
+  .rotation = (TAAnimationParameters) {
+    .duration = kAnimationDuration / 4.0,
     .fromValue = 0.0,
     .toValue = 315.0 * kDegreeToRadiansRatio
   },
   .bounce = (TAAnimationParameters) {
-    .beginTime = kExpandAnimationDuration / 4.0,
+    .beginTime = kAnimationDuration / 4.0,
     .fromValue = M_PI / 8.0,
     .toValue = 0.0
   }
 };
 
 
-TAAnimationParameters const kBounceAnimationParameters = (TAAnimationParameters) {
-  .duration = kExpandAnimationDuration * 2.0 / 3.0,
-  .damping = 0.5,
-  .velocity = 3.0
-};
-
-
-
-@implementation TAAnimationConfiguration
-
-- (instancetype)initWithDuration:(CGFloat)duration
-                         damping:(CGFloat)damping
-                        velocity:(CGFloat)velocity
-                        fromRect:(CGRect)fromRect
-                          toRect:(CGRect)toRect 
-                    functionName:(NSString *)functionName {
-  
-  if (self = [super init]) {
-    _fromRect = fromRect;
-    _toRect = toRect;
-    _velocity = velocity;
-    _duration = duration;
-    _damping = damping;
-    _functionName = functionName;
-  }
-  
-  return self;
-  
-}
-
-
-- (CGFloat)fromX {
-  return self.fromRect.origin.x;
-}
-
-- (CGFloat)fromWidth {
-  return self.fromRect.size.width;
-}
-
-- (CGFloat)toX {
-  return self.toRect.origin.x;
-}
-
-- (CGFloat)toWidth {
-  return self.toRect.size.width;
-}
-
-- (CGFloat)fromHeight {
-  return self.fromRect.size.height;
-}
-@end
+//@implementation TAAnimationConfiguration
+//
+//- (instancetype)initWithDuration:(CGFloat)duration
+//                         damping:(CGFloat)damping
+//                        velocity:(CGFloat)velocity
+//                        fromRect:(CGRect)fromRect
+//                          toRect:(CGRect)toRect 
+//                    functionName:(NSString *)functionName {
+//  
+//  if (self = [super init]) {
+//    _fromRect = fromRect;
+//    _toRect = toRect;
+//    _velocity = velocity;
+//    _duration = duration;
+//    _damping = damping;
+//    _functionName = functionName;
+//  }
+//  
+//  return self;
+//  
+//}
+//
+//
+//- (CGFloat)fromX {
+//  return self.fromRect.origin.x;
+//}
+//
+//- (CGFloat)fromWidth {
+//  return self.fromRect.size.width;
+//}
+//
+//- (CGFloat)toX {
+//  return self.toRect.origin.x;
+//}
+//
+//- (CGFloat)toWidth {
+//  return self.toRect.size.width;
+//}
+//
+//- (CGFloat)fromHeight {
+//  return self.fromRect.size.height;
+//}
+//@end
 
 
 @implementation TAAnimationManager
 
-
+/*
 
 - (NSArray *)valuesConfiguration:(TAAnimationConfiguration *)configuration {
 
@@ -127,7 +139,42 @@ TAAnimationParameters const kBounceAnimationParameters = (TAAnimationParameters)
     
     return [NSArray arrayWithArray:pathValues];
 }
+*/
 
+
+- (CAAnimation *)expandAnimationForplusButton {
+  return [self animationForPlusButton:kPlusButtonExpandAnimationParameters];
+}
+
+- (CAAnimation *)collapseAnnimationForPlusButton {
+  return [self animationForPlusButton:kPlusButtonCollapseAnimationParameters];
+}
+
+
+- (CAAnimation *)animationForPlusButton:(TAPlusButtonAnimationsParameters)animationsParameters {
+  
+  CABasicAnimation *rotation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+  rotation.fromValue = @(animationsParameters.rotation.fromValue);
+  rotation.toValue = @(animationsParameters.rotation.toValue);
+  rotation.duration = animationsParameters.rotation.duration;
+  rotation.fillMode = kCAFillModeForwards;
+  rotation.removedOnCompletion = NO;
+  
+  
+  CAKeyframeAnimation *bouncedRotation = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation.z"];
+  
+  bouncedRotation.removedOnCompletion = NO;
+  bouncedRotation.fillMode = kCAFillModeForwards;
+  bouncedRotation.duration = kBounceAnimationParameters.duration;
+  bouncedRotation.values = [self animationValuesFromValue:animationsParameters.bounce.fromValue
+                                            toValue:animationsParameters.bounce.toValue
+                                        withDamping:kBounceAnimationParameters.damping
+                                        andVelocity:kBounceAnimationParameters.velocity];
+  
+  bouncedRotation.beginTime = animationsParameters.bounce.beginTime;
+  
+  return [self groupWithAnimations:@[rotation, bouncedRotation] andDuration:kAnimationDuration];
+}
 
 static const NSUInteger kNumberOfPoints = 50;
 static const double kDampingMutiplier = 10;
@@ -163,43 +210,20 @@ double normalizeAnimationValue(double value, double damping, double velocity) {
 
 
 
-- (CAAnimation *)animationForCenterButton {
-  CABasicAnimation *rotation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
-  
-  rotation.fromValue = @(M_PI / 8.0);
-  rotation.toValue = @(0.0);
-  rotation.duration = 1/4;
-  rotation.fillMode = kCAFillModeForwards;
-  rotation.removedOnCompletion = NO;
-  
-  
-  CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation.z"];
-  animation.removedOnCompletion = NO;
-  animation.fillMode = kCAFillModeForwards;
-  animation.duration = kBounceAnimationParameters.duration;
-  animation.values = [self animationValuesFromValue:kCenterButtonAnimationParameters.bounce.fromValue
-                                            toValue:kCenterButtonAnimationParameters.bounce.toValue
-                                        withDamping:kBounceAnimationParameters.damping
-                                        andVelocity:kBounceAnimationParameters.velocity];
-  
-  animation.beginTime = kCenterButtonAnimationParameters.bounce.beginTime;
-  
-  return [self groupWithAnimations:@[rotation, animation] andDuration:kExpandAnimationDuration];
-}
 
-- (CAAnimation *)keyFrameWithConfiguration:(TAAnimationConfiguration *)configuration {
-  CAKeyframeAnimation *keyFrameAnimation = [CAKeyframeAnimation animationWithKeyPath:@"path"];
-  
-  keyFrameAnimation.removedOnCompletion = NO;
-  keyFrameAnimation.fillMode = kCAFillModeForwards;
-  keyFrameAnimation.duration = configuration.duration;
-  keyFrameAnimation.values = [self valuesConfiguration:configuration];
-  
-  keyFrameAnimation.timingFunction = [CAMediaTimingFunction functionWithName:configuration.functionName];
-  
-  return keyFrameAnimation;
-}
-
+//- (CAAnimation *)keyFrameWithConfiguration:(TAAnimationConfiguration *)configuration {
+//  CAKeyframeAnimation *keyFrameAnimation = [CAKeyframeAnimation animationWithKeyPath:@"path"];
+//  
+//  keyFrameAnimation.removedOnCompletion = NO;
+//  keyFrameAnimation.fillMode = kCAFillModeForwards;
+//  keyFrameAnimation.duration = configuration.duration;
+//  keyFrameAnimation.values = [self valuesConfiguration:configuration];
+//  
+//  keyFrameAnimation.timingFunction = [CAMediaTimingFunction functionWithName:configuration.functionName];
+//  
+//  return keyFrameAnimation;
+//}
+//
 - (CAAnimationGroup *)groupWithAnimations:(NSArray *)animations andDuration:(CFTimeInterval)duration {
   CAAnimationGroup *group = [CAAnimationGroup animation];
   group.duration = duration;
@@ -208,5 +232,7 @@ double normalizeAnimationValue(double value, double damping, double velocity) {
   group.fillMode = kCAFillModeForwards;
   return group;
 }
+
+
 
 @end

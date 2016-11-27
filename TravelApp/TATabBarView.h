@@ -15,37 +15,10 @@
 - (void)tabBarView:(TATabBarView *)tabBarView didTapAtIndex:(NSInteger)index;
 @end
 
-@protocol TATabBarDataSource <NSObject>
-- (NSArray *)items:(TATabBarView *)tabBarView;
-@end
 
-
-@interface TATabBarViewConfiguration : NSObject
-@property (assign, readonly) UIEdgeInsets tabBarViewEdgeInsets;
-@property (assign, readonly) UIColor *backgroundColor;
-@end
-
-@interface TATabBarView : UIView 
-
+@interface TATabBarView : UIView
 @property (nonatomic, weak) id <TATabBarDelegate> delegate;
-@property (nonatomic, weak) id <TATabBarDataSource> dataSource;
-@property (nonatomic, strong) UIButton *centerButton;
-
-
-
-@property (nonatomic, assign) CGRect collapsedBounds;
-@property (nonatomic, assign) CGRect expandedBounds;
-@property (nonatomic, assign) CGRect collapsedFrame;
-@property (nonatomic, assign) CGRect expandedFrame;
-
-
-- (instancetype)initWithController:(TATabBarController *)controller
-                     configuration:(TATabBarViewConfiguration *)configuration;
-- (void)setState:(TATabBarViewState *)state sender:(TATabBarViewState *)sender;
-- (void)buttonDidTup:(id)sender;
-- (void)centerButtonDidTup:(id)sender;
-- (void)setupCenterButton:(UIButton *)button;
-- (void)setupButton:(UIButton *)button;
+- (instancetype)initWithController:(TATabBarController *)controller;
 @end
 
 @interface TATabBarViewState : NSObject
