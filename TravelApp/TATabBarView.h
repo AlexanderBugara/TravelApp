@@ -15,10 +15,16 @@
 - (void)tabBarView:(TATabBarView *)tabBarView didTapAtIndex:(NSInteger)index;
 @end
 
+@protocol TATabBarDataSource <NSObject>
+- (NSArray *)tabBarViewIconNames:(TATabBarView *)tabBarView;
+@end
+
 
 @interface TATabBarView : UIView
 @property (nonatomic, weak) id <TATabBarDelegate> delegate;
+@property (nonatomic, weak) id <TATabBarDataSource> dataSource;
 - (instancetype)initWithController:(TATabBarController *)controller;
+
 @end
 
 @interface TATabBarViewState : NSObject

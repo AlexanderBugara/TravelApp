@@ -28,6 +28,7 @@
   tabBar.backgroundImage = [UIImage new];
   tabBar.shadowImage = [UIImage new];
   
+  
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds]; 
   TATabBarController *tabBarVeiwController = [[TATabBarController alloc] init];
   self.window.rootViewController = tabBarVeiwController;

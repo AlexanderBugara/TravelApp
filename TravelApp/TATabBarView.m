@@ -15,12 +15,13 @@
 #import "TAPlusButton.h"
 
 @interface TATabBarView ()
-@property (nonatomic, strong) UIView *mainView;
+@property (nonatomic, weak) UIView *mainView;
 @property (nonatomic, strong) NSMutableArray *buttons;
 @property (nonatomic, strong) TATabBarViewState *state;
 @property (nonatomic, strong) TAAnimationManager *animationManager;
 @property (assign) CGRect expandedRect;
 @property (assign) CGRect collapsedRect;
+@property (nonatomic, weak) TAPlusButton *plusButton;
 @end
 
 @implementation TATabBarView
@@ -73,23 +74,23 @@
 //  self.collapsedFrame = CGRectMake(self.centerX_ - self.height_ / 2  , 0, self.height_, self.height_);
   [self setupMainView];
   [self createPlusButton];
- // [self setupButtons];
- // [self.state updateMaskLayer];
-  [self setBackgroundColor:[UIColor clearColor]];
-
+  [self createTabBattons];
 }
 
+
+
 - (void)setupMainView {
-  self.mainView = [[UIView alloc] initWithFrame:UIEdgeInsetsInsetRect(self.bounds, kTabBarViewHDefaultEdgeInsets)];
+  UIView *mainView = [[UIView alloc] initWithFrame:UIEdgeInsetsInsetRect(self.bounds, kTabBarViewHDefaultEdgeInsets)];
+  
   //self.expandedFrame = self.mainView.frame;
   
   self.mainView.layer.cornerRadius = CGRectGetHeight(self.mainView.bounds) / 2.f;
   self.mainView.layer.masksToBounds = YES;
   
-  [self addSubview:self.mainView];
+  [self addSubview:mainView];
+  self.mainView = mainView;
   
   self.mainView.backgroundColor = [UIColor purpleColor];
-  [self setBackgroundColor:[UIColor greenColor]];
   
   self.expandedRect = self.mainView.frame;
 }
@@ -120,7 +121,47 @@
     self.expandedRect = self.mainView.frame;
     self.collapsedRect = CGRectMake(frame.origin.x, weakSelf.mainView.frame.origin.y, frame.size.width, weakSelf.mainView.frame.size.height);
   };
+  self.plusButton = plusButton;
+}
+
+- (void)createTabBattons {
+  NSArray *iconsNames = [self.dataSource tabBarViewIconNames:self];
+  UIStackView *stackView = [[UIStackView alloc] init];
+  [self addSubview:stackView];
+  [stackView mas_makeConstraints:^(MASConstraintMaker *make) {
+    make.right.equalTo(self.plusButton.mas_left);
+    make.top.equalTo(self);
+    make.bottom.equalTo(self);
+    make.left.equalTo(self.mainView.mas_left);
+  }];
   
+  stackView.axis = UILayoutConstraintAxisHorizontal;
+  stackView.distribution = UIStackViewDistributionEqualSpacing;
+  stackView.alignment = UIStackViewAlignmentCenter;
+  stackView.spacing = 30;
+  
+  NSInteger tag = 0;
+  for (NSString *iconName in iconsNames) {
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.height_, self.height_)];
+    button.tag = tag; ++tag;
+    [button mas_makeConstraints:^(MASConstraintMaker *make) {
+      make.height.equalTo(@(self.height_));
+      make.width.equalTo(@(self.height_));
+    }];
+    
+    [button addTarget:self action:@selector(barButtonDidTab:) forControlEvents:UIControlEventTouchUpInside];
+    [button setImage:[UIImage imageNamed:iconName] forState:UIControlStateNormal];
+    button.clipsToBounds = YES;
+    button.layer.cornerRadius = self.height_/2.0f;
+    button.layer.borderColor = [UIColor whiteColor].CGColor;
+    button.layer.borderWidth = 1.0f;
+    [stackView addArrangedSubview:button];
+    [button setBackgroundColor:[UIColor brownColor]];
+  }
+}
+
+- (void)barButtonDidTab:(id)sender {
+  [self.delegate tabBarView:self didTapAtIndex:[(UIButton *)sender tag]];
 }
 
 - (void)plusButtonAction:(id)sender {

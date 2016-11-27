@@ -48,6 +48,7 @@
   if (!_tabBarView) {
     _tabBarView = [[TATabBarView alloc] initWithController:self];
     _tabBarView.delegate = self;
+    _tabBarView.dataSource = self;
   }
   return _tabBarView;
 }
@@ -89,4 +90,9 @@
   return navigationController;
   
 }
+
+- (NSArray *)tabBarViewIconNames:(TATabBarView *)tabBarView {
+  return @[@"plain",@"train",@"bus"];
+}
+
 @end

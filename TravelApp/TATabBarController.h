@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "TATabBarView.h"
 
-@interface TATabBarController : UITabBarController<TATabBarDelegate>
+@interface TATabBarController : UITabBarController<TATabBarDelegate, TATabBarDataSource>
 @property (nonatomic, strong) TATabBarView *tabBarView;
 - (NSArray *)titles;
 @end
