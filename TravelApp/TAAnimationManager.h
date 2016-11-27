@@ -13,6 +13,8 @@
 @interface TAAnimationManager : NSObject
 - (CAAnimation *)expandAnimationForplusButton;
 - (CAAnimation *)collapseAnnimationForPlusButton;
+- (void)animateMainView:(UIView *)mainView frameExpand:(CGRect)rect;
+- (void)animateMainView:(UIView *)mainView frameCollapse:(CGRect)rect;
 @end
 
 

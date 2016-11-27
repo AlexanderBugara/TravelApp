@@ -23,9 +23,16 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   
+  UITabBar *tabBar = [UITabBar  appearance];
+  tabBar.barTintColor = [UIColor clearColor];
+  tabBar.backgroundImage = [UIImage new];
+  tabBar.shadowImage = [UIImage new];
+  
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds]; 
   TATabBarController *tabBarVeiwController = [[TATabBarController alloc] init];
   self.window.rootViewController = tabBarVeiwController;
+  
+  
   
   [self.window makeKeyAndVisible];
   return YES;

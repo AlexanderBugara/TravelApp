@@ -12,13 +12,15 @@
 #import "CATransaction+Extend.h"
 #import "TAAnimationManager.h"
 #import "UIView+Geometry.h"
-
+#import "TAPlusButton.h"
 
 @interface TATabBarView ()
 @property (nonatomic, strong) UIView *mainView;
 @property (nonatomic, strong) NSMutableArray *buttons;
 @property (nonatomic, strong) TATabBarViewState *state;
 @property (nonatomic, strong) TAAnimationManager *animationManager;
+@property (assign) CGRect expandedRect;
+@property (assign) CGRect collapsedRect;
 @end
 
 @implementation TATabBarView
@@ -35,7 +37,7 @@
 //  });
 //  [self.state updateMaskLayer];
 //}
-
+//
 //- (void)setExpandedFrame:(CGRect)expandedFrame {
 //  
 //  _expandedFrame = expandedFrame;
@@ -48,7 +50,16 @@
 //  [self.state updateMaskLayer];
 //}
 
-
+- (void)updateMaskLayer:(CGRect)rect {
+  
+  self.mainView.layer.mask = ({
+    CAShapeLayer *layer = [CAShapeLayer new];
+    
+    layer.path = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:rect.size.height / 2].CGPath;
+    
+    layer;
+  });
+}
 
 - (instancetype)initWithController:(TATabBarController *)controller {
   if (self = [super init]) {
@@ -79,10 +90,12 @@
   
   self.mainView.backgroundColor = [UIColor purpleColor];
   [self setBackgroundColor:[UIColor greenColor]];
+  
+  self.expandedRect = self.mainView.frame;
 }
 
 - (void)createPlusButton {
-  UIButton *plusButton = [[UIButton alloc] init];
+  TAPlusButton *plusButton = [[TAPlusButton alloc] init];
 
   [plusButton setImage:[UIImage imageNamed:@"plus"] forState:UIControlStateNormal];
   
@@ -102,16 +115,36 @@
     make.width.equalTo(@(self.height_));
   }];
   
+  __weak __typeof (self) weakSelf = self;
+  plusButton.layoutChangeBlock = ^(CGRect frame){
+    self.expandedRect = self.mainView.frame;
+    self.collapsedRect = CGRectMake(frame.origin.x, weakSelf.mainView.frame.origin.y, frame.size.width, weakSelf.mainView.frame.size.height);
+  };
   
 }
 
 - (void)plusButtonAction:(id)sender {
   
-  UIButton *plusButton = (UIButton *)sender;
-  [plusButton setSelected:!plusButton.isSelected];
-  CAAnimation *animation = (plusButton.isSelected)?[self.animationManager expandAnimationForplusButton]:[self.animationManager collapseAnnimationForPlusButton];
   
-  [[(UIButton *)sender layer] addAnimation:animation forKey:nil];
+  TAPlusButton *plusButton = (TAPlusButton *)sender;
+  [plusButton setSelected:!plusButton.isSelected];
+  
+  (plusButton.isSelected)?[self updateMaskLayer:self.expandedRect]:[self updateMaskLayer:self.collapsedRect];
+  
+  
+  
+  //CAAnimation *animation = (plusButton.isSelected)?[self.animationManager expandAnimationForplusButton]:[self.animationManager collapseAnnimationForPlusButton];
+  
+  (plusButton.isSelected)?
+  [self.animationManager animateMainView:self.mainView frameExpand:self.frame]:
+  [self.animationManager animateMainView:self.mainView frameCollapse:[(UIButton *)sender frame]];
+  
+  
+//  - (void)animateMainView:(UIView *)mainView frameExpand:(CGRect)rect
+//  - (void)animateMainView:(UIView *)mainView frameCollapse:(CGRect)rect
+  
+  
+  //[[(UIButton *)sender layer] addAnimation:animation forKey:nil];
 }
 
 - (void)layoutSubviews {
@@ -272,16 +305,7 @@
   return CGRectZero;
 }
 
-- (void)updateMaskLayer {
-  self.tabBarView.mainView.layer.mask = ({
-    CAShapeLayer *layer = [CAShapeLayer new];
-    CGRect rect = [self rect];
-    
-    layer.path = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:rect.size.height / 2].CGPath;
-    
-    layer;
-  });
-}
+
 
 
 - (CGRect)expandedRect {

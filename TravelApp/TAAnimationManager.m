@@ -7,7 +7,7 @@
 //
 
 #import "TAAnimationManager.h"
-
+#import "YALSpringAnimation.h"
 
 CFTimeInterval const kAnimationDuration = 1.0;
 
@@ -60,87 +60,7 @@ TAPlusButtonAnimationsParameters const kPlusButtonCollapseAnimationParameters = 
   }
 };
 
-
-//@implementation TAAnimationConfiguration
-//
-//- (instancetype)initWithDuration:(CGFloat)duration
-//                         damping:(CGFloat)damping
-//                        velocity:(CGFloat)velocity
-//                        fromRect:(CGRect)fromRect
-//                          toRect:(CGRect)toRect 
-//                    functionName:(NSString *)functionName {
-//  
-//  if (self = [super init]) {
-//    _fromRect = fromRect;
-//    _toRect = toRect;
-//    _velocity = velocity;
-//    _duration = duration;
-//    _damping = damping;
-//    _functionName = functionName;
-//  }
-//  
-//  return self;
-//  
-//}
-//
-//
-//- (CGFloat)fromX {
-//  return self.fromRect.origin.x;
-//}
-//
-//- (CGFloat)fromWidth {
-//  return self.fromRect.size.width;
-//}
-//
-//- (CGFloat)toX {
-//  return self.toRect.origin.x;
-//}
-//
-//- (CGFloat)toWidth {
-//  return self.toRect.size.width;
-//}
-//
-//- (CGFloat)fromHeight {
-//  return self.fromRect.size.height;
-//}
-//@end
-
-
 @implementation TAAnimationManager
-
-/*
-
-- (NSArray *)valuesConfiguration:(TAAnimationConfiguration *)configuration {
-
-    NSArray *xValues = [self animationValuesFromValue:configuration.fromX
-                                              toValue:configuration.toX
-                                          withDamping:configuration.damping
-                                          andVelocity:configuration.velocity];
-  
-    NSArray *widthValues = [self animationValuesFromValue:configuration.fromWidth
-                                                  toValue:configuration.toWidth
-                                              withDamping:configuration.damping
-                                              andVelocity:configuration.velocity];
-  
-    NSMutableArray *pathValues = [NSMutableArray new];
-    CGFloat cornerRadius = configuration.fromHeight / 2.f;
-    CGRect rect = configuration.fromRect;
-    
-    for (NSInteger i = 0; i < xValues.count; ++i) {
-      CGFloat x = [(NSNumber *)xValues[i] floatValue];
-      CGFloat width = [(NSNumber *)widthValues[i] floatValue];
-      
-      rect.origin.x = x;
-      rect.size.width = width;
-      
-      UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:cornerRadius];
-      [pathValues addObject:(id)path.CGPath];
-    }
-    
-    return [NSArray arrayWithArray:pathValues];
-}
-*/
-
 
 - (CAAnimation *)expandAnimationForplusButton {
   return [self animationForPlusButton:kPlusButtonExpandAnimationParameters];
@@ -224,6 +144,13 @@ double normalizeAnimationValue(double value, double damping, double velocity) {
 //  return keyFrameAnimation;
 //}
 //
+
+TAAnimationParameters const kYALTabBarExpandAnimationParameters = (TAAnimationParameters) {
+  .duration = kAnimationDuration / 2.0,
+  .damping = 0.5,
+  .velocity = 0.6
+};
+
 - (CAAnimationGroup *)groupWithAnimations:(NSArray *)animations andDuration:(CFTimeInterval)duration {
   CAAnimationGroup *group = [CAAnimationGroup animation];
   group.duration = duration;
@@ -233,6 +160,38 @@ double normalizeAnimationValue(double value, double damping, double velocity) {
   return group;
 }
 
+- (void)animateMainView:(UIView *)mainView frameExpand:(CGRect)rect {
+  CAAnimation *animation = [self animationForTabBarExpandFromRect:mainView.bounds toRect:rect];
+  animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+  [mainView.layer.mask addAnimation:animation forKey:nil];
+}
+
+- (void)animateMainView:(UIView *)mainView frameCollapse:(CGRect)rect {
+  CAAnimation *animation = [self animationForTabBarCollapseFromRect:mainView.bounds toRect:rect];
+  animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+  [mainView.layer.mask addAnimation:animation forKey:nil];
+}
 
 
+- (CAAnimation *)animationForTabBarExpandFromRect:(CGRect)fromRect toRect:(CGRect)toRect {
+  return [YALSpringAnimation animationForRoundedRectPathWithduration:kYALTabBarExpandAnimationParameters.duration
+                                                             damping:kYALTabBarExpandAnimationParameters.damping
+                                                            velocity:kYALTabBarExpandAnimationParameters.velocity
+                                                           fromValue:fromRect
+                                                             toValue:toRect];
+}
+
+TAAnimationParameters const kYALTabBarCollapseAnimationParameters = (TAAnimationParameters) {
+  .duration = kAnimationDuration * 0.6,
+  .damping = 1,
+  .velocity = 0.2
+};
+
+- (CAAnimation *)animationForTabBarCollapseFromRect:(CGRect)fromRect toRect:(CGRect)toRect {
+  return [YALSpringAnimation animationForRoundedRectPathWithduration:kYALTabBarCollapseAnimationParameters.duration
+                                                             damping:kYALTabBarCollapseAnimationParameters.damping
+                                                            velocity:kYALTabBarCollapseAnimationParameters.velocity
+                                                           fromValue:fromRect
+                                                             toValue:toRect];
+}
 @end
