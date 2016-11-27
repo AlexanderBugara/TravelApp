@@ -32,6 +32,11 @@
   
   UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
   [self.view addSubview:tableView];
+  [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+    make.edges.equalTo(self.view);
+  }];
+  
+  
   self.tableView = tableView;
   self.tableView.dataSource = self;
   self.tableView.delegate = self;
