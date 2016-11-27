@@ -125,12 +125,13 @@
   self.centerButton.adjustsImageWhenHighlighted = NO;
   
   [button mas_makeConstraints:^(MASConstraintMaker *make) {
-    make.center.equalTo(self);
+    make.centerY.equalTo(self);
+    make.right.equalTo(self);
     make.height.equalTo(self);
     make.width.equalTo(self.mas_height);
   }];
   
-  [self.buttons addObject:button];
+  
   
   
   //self.centerButton.frame;

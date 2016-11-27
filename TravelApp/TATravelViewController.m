@@ -14,23 +14,27 @@
 #import "UIView+Geometry.h"
 #import "TASortType.h"
 #import "TATravelDataSource.h"
+#import "Masonry.h"
 
 @interface TATravelViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong, readwrite) TANetworkContext *networkContext;
 @property (nonatomic, strong, readwrite) NSOperationQueue *operationQueue;
+@property (nonatomic, weak) UIView *sortView;
 @end
 
 @implementation TATravelViewController
 
+
 - (void)viewDidLoad {
   [super viewDidLoad];
+  
   UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
   [self.view addSubview:tableView];
   self.tableView = tableView;
   self.tableView.dataSource = self;
   self.tableView.delegate = self;
   
-  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sort"] style:UIBarButtonItemStylePlain target:self action:@selector(presentSortView:)];
+  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sort"] style:UIBarButtonItemStylePlain target:self action:@selector(sortViewPresentingAction:)];
   
   self.travelDataSource = [TATravelDataSource new];
   
@@ -45,16 +49,74 @@
     [creator create];
     [self.operationQueue addOperations:[creator operations] waitUntilFinished:NO];
   }
+}
+
+
+- (void) addBlurEffect:(UIView *)view {
+  CGRect bounds = view.bounds;
+  UIVisualEffectView *visualEffectView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
+  visualEffectView.frame = bounds;
+  visualEffectView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+  [view addSubview:visualEffectView];
+  view.backgroundColor = [UIColor clearColor];
+  [view sendSubviewToBack:visualEffectView];
+}
+
+- (UISegmentedControl *)createSegmentedControl {
+  UISegmentedControl *segmntedControl = [[UISegmentedControl alloc] initWithItems:[self.travelDataSource segmentedControlItems]];
+  [self.travelDataSource synchronizeSegmentedControl:segmntedControl];
   
-  
+  [segmntedControl addTarget:self.travelDataSource action:@selector(sortSegmntedControlAction:) forControlEvents:UIControlEventValueChanged];
+  return segmntedControl;
 }
 
 - (void)presentSortView:(id)sender {
-  UISegmentedControl *segmntedControl = [[UISegmentedControl alloc] initWithItems:[self.travelDataSource segmentedControlItems]];
-  [self.travelDataSource synchronizeSegmentedControl:segmntedControl];
-  [self.navigationController.navigationBar addSubview:segmntedControl];
-  [segmntedControl addTarget:self.travelDataSource action:@selector(sortSegmntedControlAction:) forControlEvents:UIControlEventValueChanged];
+  
+  UISegmentedControl *segmntedControl = [self createSegmentedControl];
+  UIView *sortBackgroundView = [[UIView alloc] initWithFrame:CGRectZero];
+  [self addBlurEffect:sortBackgroundView];
+  
+  [sortBackgroundView addSubview:segmntedControl];
+  [sortBackgroundView setBackgroundColor:[UIColor whiteColor]];
+  sortBackgroundView.backgroundColor = [UIColor colorWithRed:(247/255.0) green:(247/255.0) blue:(247/255.0) alpha:0.8];
+  
+  
+  [segmntedControl mas_makeConstraints:^(MASConstraintMaker *make) {
+    make.center.equalTo(sortBackgroundView);
+    make.top.equalTo(sortBackgroundView);
+    make.bottom.equalTo(sortBackgroundView);
+  }];
+  
+  [self.navigationController.view addSubview:sortBackgroundView];
+  
+  [sortBackgroundView mas_makeConstraints:^(MASConstraintMaker *make) {
+    make.top.equalTo(self.navigationController.navigationBar.mas_bottom);
+    make.centerX.equalTo(self.navigationController.navigationBar);
+    make.left.equalTo(self.navigationController.navigationBar.mas_left);
+    make.right.equalTo(self.navigationController.navigationBar.mas_right);
+  }];
+  
+  self.sortView = sortBackgroundView;
+  
+  [self.tableView setContentInset:UIEdgeInsetsMake(self.tableView.contentInset.top + segmntedControl.height_,0,0,0)];
+  
+  [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentOffset.y - segmntedControl.height_)];
+  
 }
+
+- (void)dismissSortView:(id)sender {
+  
+  [self.tableView setContentInset:UIEdgeInsetsMake(self.tableView.contentInset.top - self.sortView.height_,0,0,0)];
+  
+  [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentOffset.y + self.sortView.height_)];
+  
+  [self.sortView removeFromSuperview];
+}
+
+- (void)sortViewPresentingAction:(id)sender {
+  (self.sortView)?[self dismissSortView:nil]:[self presentSortView:nil];
+}
+
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
                       ofObject:(id)object 
