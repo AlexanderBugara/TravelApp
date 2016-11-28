@@ -7,7 +7,6 @@
 //
 
 #import "TAAnimationManager.h"
-#import "YALSpringAnimation.h"
 
 CFTimeInterval const kAnimationDuration = 1.0;
 
@@ -59,6 +58,32 @@ TAPlusButtonAnimationsParameters const kPlusButtonCollapseAnimationParameters = 
     .toValue = 0.0
   }
 };
+
+TAAnimationParameters const kTabBarExpandAnimationParameters = (TAAnimationParameters) {
+  .duration = kAnimationDuration / 2.0,
+  .damping = 0.5,
+  .velocity = 0.6
+};
+
+TAAnimationParameters const kTabBarCollapseAnimationParameters = (TAAnimationParameters) {
+  .duration = kAnimationDuration * 0.6,
+  .damping = 1,
+  .velocity = 0.2
+};
+
+
+typedef struct {
+  NSTimeInterval duration;
+  NSTimeInterval delay;
+  CGFloat damping;
+  CGFloat velocity;
+  UIViewAnimationOptions options;
+} TATabBarItemViewAnimationParameters;
+
+TATabBarItemViewAnimationParameters const kHideTabBarItemViewAnimationParameters = (TATabBarItemViewAnimationParameters) {
+  .duration = 1 / 8.0,
+};
+
 
 @implementation TAAnimationManager
 
@@ -129,28 +154,6 @@ double normalizeAnimationValue(double value, double damping, double velocity) {
 }
 
 
-
-
-//- (CAAnimation *)keyFrameWithConfiguration:(TAAnimationConfiguration *)configuration {
-//  CAKeyframeAnimation *keyFrameAnimation = [CAKeyframeAnimation animationWithKeyPath:@"path"];
-//  
-//  keyFrameAnimation.removedOnCompletion = NO;
-//  keyFrameAnimation.fillMode = kCAFillModeForwards;
-//  keyFrameAnimation.duration = configuration.duration;
-//  keyFrameAnimation.values = [self valuesConfiguration:configuration];
-//  
-//  keyFrameAnimation.timingFunction = [CAMediaTimingFunction functionWithName:configuration.functionName];
-//  
-//  return keyFrameAnimation;
-//}
-//
-
-TAAnimationParameters const kYALTabBarExpandAnimationParameters = (TAAnimationParameters) {
-  .duration = kAnimationDuration / 2.0,
-  .damping = 0.5,
-  .velocity = 0.6
-};
-
 - (CAAnimationGroup *)groupWithAnimations:(NSArray *)animations andDuration:(CFTimeInterval)duration {
   CAAnimationGroup *group = [CAAnimationGroup animation];
   group.duration = duration;
@@ -173,25 +176,76 @@ TAAnimationParameters const kYALTabBarExpandAnimationParameters = (TAAnimationPa
 }
 
 
-- (CAAnimation *)animationForTabBarExpandFromRect:(CGRect)fromRect toRect:(CGRect)toRect {
-  return [YALSpringAnimation animationForRoundedRectPathWithduration:kYALTabBarExpandAnimationParameters.duration
-                                                             damping:kYALTabBarExpandAnimationParameters.damping
-                                                            velocity:kYALTabBarExpandAnimationParameters.velocity
-                                                           fromValue:fromRect
-                                                             toValue:toRect];
+
+- (NSArray *)animationValuesForPathFromValue:(CGRect)fromValue
+                                     toValue:(CGRect)toValue
+                                 withDamping:(double)damping
+                                 andVelocity:(double)velocity
+{
+  NSArray *xValues = [self animationValuesFromValue:fromValue.origin.x
+                                            toValue:toValue.origin.x
+                                        withDamping:damping
+                                        andVelocity:velocity];
+  NSArray *widthValues = [self animationValuesFromValue:fromValue.size.width
+                                                toValue:toValue.size.width
+                                            withDamping:damping
+                                            andVelocity:velocity];
+  NSMutableArray *pathValues = [NSMutableArray new];
+  CGFloat cornerRadius = fromValue.size.height / 2.f;
+  CGRect rect = fromValue;
+  
+  for (NSInteger i = 0; i < xValues.count; ++i) {
+    CGFloat x = [(NSNumber *)xValues[i] floatValue];
+    CGFloat width = [(NSNumber *)widthValues[i] floatValue];
+    
+    rect.origin.x = x;
+    rect.size.width = width;
+    
+    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:cornerRadius];
+    [pathValues addObject:(id)path.CGPath];
+  }
+  
+  return [NSArray arrayWithArray:pathValues];
 }
 
-TAAnimationParameters const kYALTabBarCollapseAnimationParameters = (TAAnimationParameters) {
-  .duration = kAnimationDuration * 0.6,
-  .damping = 1,
-  .velocity = 0.2
-};
+
+- (CAAnimation *)animationForTabBarExpandFromRect:(CGRect)fromRect toRect:(CGRect)toRect {
+  return [self animationExpandCollapse:kTabBarExpandAnimationParameters from:fromRect toRect:toRect];
+}
+
+
+- (CAAnimation *)animationExpandCollapse:(TAAnimationParameters)params 
+                                    from:(CGRect)fromRect
+                                  toRect:(CGRect)toRect {
+  CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"path"];
+  
+  animation.removedOnCompletion = NO;
+  animation.fillMode = kCAFillModeForwards;
+  animation.duration = params.duration;
+  animation.values = [self animationValuesForPathFromValue:fromRect
+                                                   toValue:toRect
+                                               withDamping:params.damping
+                                               andVelocity:params.velocity];
+  return animation;
+
+}
+
 
 - (CAAnimation *)animationForTabBarCollapseFromRect:(CGRect)fromRect toRect:(CGRect)toRect {
-  return [YALSpringAnimation animationForRoundedRectPathWithduration:kYALTabBarCollapseAnimationParameters.duration
-                                                             damping:kYALTabBarCollapseAnimationParameters.damping
-                                                            velocity:kYALTabBarCollapseAnimationParameters.velocity
-                                                           fromValue:fromRect
-                                                             toValue:toRect];
+  return [self animationExpandCollapse:kTabBarCollapseAnimationParameters from:fromRect toRect:toRect];
+}
+
+- (void)buttonsHideWithAnimation:(NSArray *)buttons plusButton:(UIButton *)plusButton {
+  [UIView animateWithDuration:kHideTabBarItemViewAnimationParameters.duration
+                   animations:^{
+                     for (UIButton *button in buttons) {
+                       button.center = CGPointMake(plusButton.center.x + CGRectGetWidth(plusButton.frame) + 15.0f, plusButton.center.y);
+                     }
+                   }completion:^(BOOL finished) {
+                     for (UIButton *button in buttons) {
+                       button.hidden = YES;
+                     }
+                   }];
+
 }
 @end

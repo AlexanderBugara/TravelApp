@@ -38,7 +38,6 @@
 		11F377741DEA09EB00E1FC76 /* TATravelDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 11F377731DEA09EB00E1FC76 /* TATravelDataSource.m */; };
 		11F3779F1DEB0B1D00E1FC76 /* TAOfferViewContoller.m in Sources */ = {isa = PBXBuildFile; fileRef = 11F3779E1DEB0B1D00E1FC76 /* TAOfferViewContoller.m */; };
 		11F377A21DEB265B00E1FC76 /* TATransitionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 11F377A11DEB265B00E1FC76 /* TATransitionDelegate.m */; };
-		11F377AB1DEB767800E1FC76 /* YALSpringAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 11F377AA1DEB767800E1FC76 /* YALSpringAnimation.m */; };
 		11F377AE1DEB912C00E1FC76 /* TAPlusButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 11F377AD1DEB912C00E1FC76 /* TAPlusButton.m */; };
 		C148378862D6899AB7E603FF /* libPods-TravelApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0324BDCDEE45C208E2A63866 /* libPods-TravelApp.a */; };
 /* End PBXBuildFile section */
@@ -105,8 +104,6 @@
 		11F3779E1DEB0B1D00E1FC76 /* TAOfferViewContoller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAOfferViewContoller.m; sourceTree = "<group>"; };
 		11F377A01DEB265B00E1FC76 /* TATransitionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TATransitionDelegate.h; sourceTree = "<group>"; };
 		11F377A11DEB265B00E1FC76 /* TATransitionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TATransitionDelegate.m; sourceTree = "<group>"; };
-		11F377A91DEB767800E1FC76 /* YALSpringAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YALSpringAnimation.h; sourceTree = "<group>"; };
-		11F377AA1DEB767800E1FC76 /* YALSpringAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YALSpringAnimation.m; sourceTree = "<group>"; };
 		11F377AC1DEB912C00E1FC76 /* TAPlusButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TAPlusButton.h; path = TravelApp/TAPlusButton.h; sourceTree = "<group>"; };
 		11F377AD1DEB912C00E1FC76 /* TAPlusButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TAPlusButton.m; path = TravelApp/TAPlusButton.m; sourceTree = "<group>"; };
 		6665198F48800231C0066360 /* Pods-TravelApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-TravelApp/Pods-TravelApp.release.xcconfig"; sourceTree = "<group>"; };
@@ -256,8 +253,6 @@
 				11F3779E1DEB0B1D00E1FC76 /* TAOfferViewContoller.m */,
 				11F377A01DEB265B00E1FC76 /* TATransitionDelegate.h */,
 				11F377A11DEB265B00E1FC76 /* TATransitionDelegate.m */,
-				11F377A91DEB767800E1FC76 /* YALSpringAnimation.h */,
-				11F377AA1DEB767800E1FC76 /* YALSpringAnimation.m */,
 			);
 			path = TravelApp;
 			sourceTree = "<group>";
@@ -402,7 +397,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11F377AB1DEB767800E1FC76 /* YALSpringAnimation.m in Sources */,
 				11BFC30A1DE9B0F7009BC9A3 /* TADeserializeOperatioon.m in Sources */,
 				11CBC7151DDC3859008BE9C2 /* TATabBarView.m in Sources */,
 				11CBC70F1DDC3323008BE9C2 /* TATabBarController.m in Sources */,

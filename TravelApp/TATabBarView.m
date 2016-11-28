@@ -22,34 +22,10 @@
 @property (assign) CGRect expandedRect;
 @property (assign) CGRect collapsedRect;
 @property (nonatomic, weak) TAPlusButton *plusButton;
+@property (nonatomic, weak) UIStackView *stackView;
 @end
 
 @implementation TATabBarView
-
-//- (void)setCollapsedFrame:(CGRect)collapsedFrame {
-//  
-//  _collapsedFrame = collapsedFrame;
-//  
-//  self.collapsedBounds = ({
-//    CGRect collapsedBounds = collapsedFrame;
-//    collapsedBounds.origin = CGPointZero;
-//    collapsedBounds.origin.x = CGRectGetWidth(self.expandedFrame) / 2 - CGRectGetWidth(collapsedBounds) / 2;
-//    collapsedBounds;
-//  });
-//  [self.state updateMaskLayer];
-//}
-//
-//- (void)setExpandedFrame:(CGRect)expandedFrame {
-//  
-//  _expandedFrame = expandedFrame;
-//  
-//  self.expandedBounds = ({
-//    CGRect expandedBounds = expandedFrame;
-//    expandedBounds.origin = CGPointZero;
-//    expandedBounds;
-//  });
-//  [self.state updateMaskLayer];
-//}
 
 - (void)updateMaskLayer:(CGRect)rect {
   
@@ -71,19 +47,25 @@
 
 
 - (void)setup {
-//  self.collapsedFrame = CGRectMake(self.centerX_ - self.height_ / 2  , 0, self.height_, self.height_);
+  [self clearSubviews];
+  
   [self setupMainView];
   [self createPlusButton];
   [self createTabBattons];
+ 
+  [self collapse];
 }
 
-
+- (void)clearSubviews {
+  [self.mainView removeFromSuperview];
+  for (UIButton *button in self.buttons) {
+    [button removeFromSuperview];
+  }
+  [self.plusButton removeFromSuperview];
+}
 
 - (void)setupMainView {
   UIView *mainView = [[UIView alloc] initWithFrame:UIEdgeInsetsInsetRect(self.bounds, kTabBarViewHDefaultEdgeInsets)];
-  
-  //self.expandedFrame = self.mainView.frame;
-  
   self.mainView.layer.cornerRadius = CGRectGetHeight(self.mainView.bounds) / 2.f;
   self.mainView.layer.masksToBounds = YES;
   
@@ -128,6 +110,7 @@
   NSArray *iconsNames = [self.dataSource tabBarViewIconNames:self];
   UIStackView *stackView = [[UIStackView alloc] init];
   [self addSubview:stackView];
+  self.stackView = stackView;
   [stackView mas_makeConstraints:^(MASConstraintMaker *make) {
     make.right.equalTo(self.plusButton.mas_left);
     make.top.equalTo(self);
@@ -144,6 +127,7 @@
   for (NSString *iconName in iconsNames) {
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.height_, self.height_)];
     button.tag = tag; ++tag;
+    [button setHidden:YES];
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
       make.height.equalTo(@(self.height_));
       make.width.equalTo(@(self.height_));
@@ -157,11 +141,31 @@
     button.layer.borderWidth = 1.0f;
     [stackView addArrangedSubview:button];
     [button setBackgroundColor:[UIColor brownColor]];
+    [self.buttons addObject:button];
   }
 }
 
 - (void)barButtonDidTab:(id)sender {
   [self.delegate tabBarView:self didTapAtIndex:[(UIButton *)sender tag]];
+}
+
+- (void)collapse {
+  [self updateMaskLayer:self.collapsedRect];
+  [self.animationManager animateMainView:self.mainView frameCollapse:[self.plusButton frame]];
+  CAAnimation *animation = [self.animationManager collapseAnnimationForPlusButton];
+  [self.plusButton.layer addAnimation:animation forKey:nil];
+  [self hideButtons];
+}
+
+- (void)expand {
+  [self updateMaskLayer:self.expandedRect];
+  
+  
+  [self.animationManager animateMainView:self.mainView frameExpand:self.frame];
+  
+  CAAnimation *animation = [self.animationManager expandAnimationForplusButton];
+  [self.plusButton.layer addAnimation:animation forKey:nil];
+  [self showButtons];
 }
 
 - (void)plusButtonAction:(id)sender {
@@ -170,22 +174,28 @@
   TAPlusButton *plusButton = (TAPlusButton *)sender;
   [plusButton setSelected:!plusButton.isSelected];
   
-  (plusButton.isSelected)?[self updateMaskLayer:self.expandedRect]:[self updateMaskLayer:self.collapsedRect];
   
+   void (^blockAnimations)(void) = ^(){
+     
+    (plusButton.isSelected)?[self updateMaskLayer:self.expandedRect]:[self updateMaskLayer:self.collapsedRect];
+     
+     (plusButton.isSelected)?
+     [self.animationManager animateMainView:self.mainView frameExpand:self.frame]:
+     [self.animationManager animateMainView:self.mainView frameCollapse:[(UIButton *)sender frame]];
+     
+     CAAnimation *animation = (plusButton.isSelected)?[self.animationManager expandAnimationForplusButton]:[self.animationManager collapseAnnimationForPlusButton];
+     [plusButton.layer addAnimation:animation forKey:nil];
+     
+     (plusButton.isSelected)?[self showButtons]:[self hideButtons];
+   };
   
+  [CATransaction begin];
+  [CATransaction setCompletionBlock:nil];
+  if (blockAnimations) {
+    blockAnimations();
+  }
+  [CATransaction commit];
   
-  //CAAnimation *animation = (plusButton.isSelected)?[self.animationManager expandAnimationForplusButton]:[self.animationManager collapseAnnimationForPlusButton];
-  
-  (plusButton.isSelected)?
-  [self.animationManager animateMainView:self.mainView frameExpand:self.frame]:
-  [self.animationManager animateMainView:self.mainView frameCollapse:[(UIButton *)sender frame]];
-  
-  
-//  - (void)animateMainView:(UIView *)mainView frameExpand:(CGRect)rect
-//  - (void)animateMainView:(UIView *)mainView frameCollapse:(CGRect)rect
-  
-  
-  //[[(UIButton *)sender layer] addAnimation:animation forKey:nil];
 }
 
 - (void)layoutSubviews {
@@ -195,54 +205,6 @@
   
 }
 
-//- (void)addButtonWithItem:(TATabBarItem *)item atIndex:(NSInteger)index {
-//  UIButton *button = [[UIButton alloc] init];
-//  [button setImage:item.image forState:UIControlStateNormal];
-//  [item accept:button sender:self];
-//}
-
-//- (void)setupCenterButton:(UIButton *)button {
-  /*
-  [button addTarget:self action:@selector(centerButtonDidTup:) forControlEvents:UIControlEventTouchUpInside];
-  [self addSubview:button];
-  self.centerButton = button;
-  [self.centerButton setBackgroundColor:[UIColor purpleColor]];
-  self.centerButton.layer.cornerRadius = CGRectGetHeight(self.mainView.bounds) / 2.f;
-  self.centerButton.adjustsImageWhenHighlighted = NO;
-  
-  [button mas_makeConstraints:^(MASConstraintMaker *make) {
-    make.centerY.equalTo(self);
-    make.right.equalTo(self);
-    make.height.equalTo(self);
-    make.width.equalTo(self.mas_height);
-  }];
-  */
-  //self.centerButton.frame;
-  
-//}
-
-- (void)setupButton:(UIButton *)button {
-  
-  
-  [button addTarget:self action:@selector(buttonDidTup:) forControlEvents:UIControlEventTouchUpInside];
-  [self.mainView addSubview:button];
-  [self.buttons addObject:button];
-  
-  UIButton *previousButton = [self buttonBefore:button];
-  
-  [button mas_makeConstraints:^(MASConstraintMaker *make) {
-    
-    if (previousButton)
-      make.left.equalTo(previousButton.mas_right).offset(10);
-    else
-      make.left.equalTo(@10);
-    
-    make.centerY.equalTo(self.mainView);
-    make.height.equalTo(self.mainView);
-    make.width.equalTo(@60);
-  }];
-}
-
 - (UIButton *)buttonBefore:(UIButton *)button {
   NSInteger index = [self.buttons indexOfObject:button];
   if (index > 0) {
@@ -250,16 +212,6 @@
   }
   return nil;
 }
-
-//- (void)setupButtons {
-//  NSArray *items = [self.dataSource items:self];
-//  
-//  NSInteger index = 0;
-//  for (TATabBarItem *item in items) {
-//    [self addButtonWithItem:item atIndex:index];
-//    ++index;
-//  }
-//}
 
 - (NSMutableArray *)buttons {
   if (!_buttons) {
@@ -272,45 +224,6 @@
   [self.delegate tabBarView:self didTapAtIndex:[self.buttons indexOfObject:sender]];
 }
 
-- (void)centerButtonDidTup:(id)sender {
-  [self.state change];
-}
-
-- (void)setState:(TATabBarViewState *)state 
-          sender:(TATabBarViewState *)sender {
-  if ([sender isKindOfClass:[TATabBarViewState class]] && state != sender) {
-    self.state = state;
-  }
-}
-
-- (TATabBarViewState *)state {
-  if (!_state) {
-    _state = [self collapsedState];
-  }
-  return _state;
-}
-
-- (TACollapsedState *)collapsedState {
-  return [[TACollapsedState alloc] initWithTabBarView:self];
-}
-
-- (TATExpandedState *)expandedState {
-  return [[TATExpandedState alloc] initWithTabBarView:self];
-}
-
-- (TACollapseAnimationState *)collapseAnimation {
-  
-  return [[TACollapseAnimationState alloc] initWithTabBarView:self animationManager:self.animationManager];
-}
-
-- (TAExpandAnimationState *)expandedAnimation {
-  
-  return [[TAExpandAnimationState alloc] initWithTabBarView:self animationManager:self.animationManager];
-}
-
-
-
-
 - (TAAnimationManager *)animationManager {
   if (!_animationManager) {
     _animationManager = [TAAnimationManager new];
@@ -318,201 +231,15 @@
   return _animationManager;
 }
 
+- (void)hideButtons {
+  [self.animationManager buttonsHideWithAnimation:self.buttons plusButton:self.plusButton];
+ }
 
-@end
-
-
-@interface TATabBarViewState ()
-@property (nonatomic, weak) TATabBarView *tabBarView;
-@end
-
-@implementation TATabBarViewState
-- (id)initWithTabBarView:(TATabBarView *)tabBarView {
-  if (self = [super init]) {
-    _tabBarView = tabBarView;
+- (void)showButtons {
+  for (UIButton *button in self.buttons) {
+    button.hidden = NO;
   }
-  return self;
+  [self.stackView setNeedsLayout];
 }
 
-- (void)change {
-  //override in child
-}
-
-- (TATabBarView *)tabBarView {
-  return _tabBarView;
-}
-
-- (CGRect)rect {
-  return CGRectZero;
-}
-
-
-
-
-- (CGRect)expandedRect {
-  return CGRectZero;//[self.tabBarView expandedFrame];
-}
-
-- (CGRect)collapsedRect {
-  return CGRectZero; //[self.tabBarView collapsedFrame];
-}
-
-
-
-@end
-
-@implementation TATExpandedState
-- (void)change {
-  [self.tabBarView setState:[self.tabBarView collapseAnimation]];
-}
-
-- (CGRect)rect {
-  return [self expandedRect];
-}
-@end
-
-@implementation TACollapsedState
-- (void)change {
-  [self.tabBarView setState:[self.tabBarView expandedAnimation]];
-}
-
-- (CGRect)rect {
-  return [self collapsedRect];
-}
-@end
-
-
-
-@interface TAAnimationTabBarState ()
-@property (nonatomic, weak) TAAnimationManager *animationManager;
-@end
-
-@implementation TAAnimationTabBarState
-- (instancetype)initWithTabBarView:(TATabBarView *)tabBarView
-                  animationManager:(TAAnimationManager *)animationManager {
-  
-  if (self = [super initWithTabBarView:tabBarView]) {
-    _animationManager = animationManager;
-    [self runAnimation];
-  }
-  return self;
-  
-}
-
-- (void)runAnimation {
-  //need override
-}
-
-- (void)animateCenterButton {
-  
-}
-
-@end
-
-
-
-@implementation TACollapseAnimationState
-
-- (void)runAnimation {
-  [CATransaction transactionAnimations:^{
-    [self animateTabBarViewCollapse];
-    [self animateCenterButton];
-    
-    //    [self showExtraLeftTabBarItem];
-    //    [self showExtraRightTabBarItem];
-    //[self animateCenterButtonCollapse];
-    //    [self hideSelectedDotView];
-    //    [self animateAdditionalButtons];
-  } completion:^{
-    [self.tabBarView setState:[self.tabBarView collapsedState]];
-    
-  }];
-}
-
-
-/*
-- (void)animateTabBarViewCollapse {
-//  CAAnimation *animation = [CAAnimation animationForTabBarCollapseFromRect:[self currentRect] toRect:[self rect]];
-//  animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
-//  [self.tabBarView.mainView.layer.mask addAnimation:animation forKey:nil];
-}
-
-*/
-
-- (void)animateTabBarViewCollapse {
-  
-//  TAAnimationConfiguration *configuration = [[TAAnimationConfiguration alloc] initWithDuration:0.6
-//                                                                                       damping:1
-//                                                                                      velocity:0.2
-//                                                                                      fromRect:[self expandedRect]
-//                                                                                        toRect:[self collapsedRect]
-//                                                                                  functionName:kCAMediaTimingFunctionEaseOut];
-//  
-//  CAAnimation *animation = [self.animationManager keyFrameWithConfiguration:configuration];
-//  [self.tabBarView.mainView.layer.mask addAnimation:animation forKey:nil];
-  
-}
-
-
-
-- (CGRect)rect {
-  return CGRectZero;// self.tabBarView.collapsedFrame;
-}
-
-- (void)animateCenterButtonCollapse {
-//  CAAnimation *animation = [CAAnimation animationForCenterButtonCollapse];
-//  [self.centerButton.layer addAnimation:animation forKey:nil];
-}
-
-
-//
-//- (void)hideExtraLeftTabBarItem {
-//  [UIView animateWithDuration:kYALHideExtraTabBarItemViewAnimationParameters.duration
-//                   animations:^{
-//                     self.extraLeftButton.center = CGPointMake( - CGRectGetWidth(self.extraLeftButton.frame) / 2.f, self.extraLeftButton.center.y);
-//                   }];
-//}
-//
-//- (void)hideExtraRightTabBarItem {
-//  [UIView animateWithDuration:kYALHideExtraTabBarItemViewAnimationParameters.duration
-//                   animations:^{
-//                     self.extraRightButton.center = CGPointMake(self.extraRightButton.center.x + CGRectGetWidth(self.extraRightButton.frame) + self.offsetForExtraTabBarItems, self.extraRightButton.center.y);
-//                   }];
-//}
-
-- (void)animateCenterButton {
- // CAAnimation *animation = [self.animationManager animationForCenterButton];
- // [self.tabBarView.centerButton.layer addAnimation:animation forKey:nil];
-}
-
-@end
-
-@implementation TAExpandAnimationState
-
-- (void)runAnimation {
-  
-  [CATransaction transactionAnimations:^{
-     [self animateTabBarViewExpand];
-  } completion:^{
-    [self.tabBarView setState:[self.tabBarView expandedState]];
-  }];
-  
-}
-
-- (void)animateTabBarViewExpand {
-//  TAAnimationConfiguration *configuration = [[TAAnimationConfiguration alloc] initWithDuration:1/2.0
-//                                                                                       damping:0.5
-//                                                                                      velocity:0.6
-//                                                                                      fromRect:[self collapsedRect]
-//                                                                                        toRect:[self expandedRect]
-//                                                                                  functionName:kCAMediaTimingFunctionEaseInEaseOut];
-//  CAAnimation *animation = [self.animationManager keyFrameWithConfiguration:configuration];
-//  [self.tabBarView.mainView.layer.mask addAnimation:animation forKey:nil];
-}
-
-
-
-- (CGRect)rect {
-  return CGRectZero;// self.tabBarView.expandedFrame;
-}
 @end
